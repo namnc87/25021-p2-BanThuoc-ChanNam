@@ -5,9 +5,22 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
   
-  // Get cookie from request
-  const cookies = request.cookies.get('access_token')?.value;
-  const cookieHeader = cookies ? `access_token=${cookies}` : '';
+  // Get ALL cookies from request
+  const allCookies = request.cookies
+    .getAll()
+    .map(c => `${c.name}=${c.value}`)
+    .join('; ');
+  
+  // Get specific access_token
+  const accessToken = request.cookies.get('access_token')?.value;
+  const cookieHeader = accessToken ? `access_token=${accessToken}` : '';
+
+  // Debug logging (remove after testing)
+  console.log('=== MIDDLEWARE DEBUG ===');
+  console.log('Pathname:', pathname);
+  console.log('Has access_token:', !!accessToken);
+  console.log('All cookies:', allCookies);
+  console.log('======================');
 
   // Check static files and API routes
   if (
