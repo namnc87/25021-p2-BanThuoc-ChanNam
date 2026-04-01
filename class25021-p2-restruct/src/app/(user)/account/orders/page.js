@@ -4,9 +4,11 @@ import { redirect } from 'next/navigation';
 import { getUserOrders } from '@/actions/orders';
 import OrdersList from './OrdersList';
 
+export const dynamic = 'force-dynamic';
+
 export default async function OrdersPage() {
   const user = await checkAuth();
-  
+
   if (!user) {
     redirect('/login?redirect=/account/orders');
   }
