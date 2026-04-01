@@ -5,22 +5,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
   
-  // Get ALL cookies from request
-  const allCookies = request.cookies
-    .getAll()
-    .map(c => `${c.name}=${c.value}`)
-    .join('; ');
-  
-  // Get specific access_token
-  const accessToken = request.cookies.get('access_token')?.value;
-  const cookieHeader = accessToken ? `access_token=${accessToken}` : '';
-
-  // Debug logging (remove after testing)
-  console.log('=== MIDDLEWARE DEBUG ===');
-  console.log('Pathname:', pathname);
-  console.log('Has access_token:', !!accessToken);
-  console.log('All cookies:', allCookies);
-  console.log('======================');
+  // Get cookie from request
+  const cookies = request.cookies.get('access_token')?.value;
+  const cookieHeader = cookies ? `access_token=${cookies}` : '';
 
   // Check static files and API routes
   if (
@@ -48,22 +35,6 @@ export async function middleware(request) {
 
   // Allow public routes
   if (publicRoutes.includes(pathname)) {
-    return response;
-  }
-
-  // If no token, redirect to login for protected routes
-  if (!accessToken) {
-    const userProtectedRoutes = ['/cart', '/checkout', '/account'];
-    const isUserProtectedRoute = userProtectedRoutes.some(
-      route => pathname === route || pathname.startsWith(route + '/')
-    );
-    
-    if (isUserProtectedRoute) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('redirect', pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-    
     return response;
   }
 
