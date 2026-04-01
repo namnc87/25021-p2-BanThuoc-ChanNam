@@ -15,8 +15,12 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow localhost on any port
-    if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || origin.startsWith('http://192.168.1.18')) {
+    // Allow all origins for production (or specify your Vercel URL)
+    if (!origin || 
+        origin.startsWith('http://localhost') || 
+        origin.startsWith('http://127.0.0.1') || 
+        origin.startsWith('http://192.168.1.18') ||
+        origin.includes('vercel.app')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
