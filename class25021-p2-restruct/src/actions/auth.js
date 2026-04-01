@@ -67,26 +67,18 @@ export async function loginAction(prevState, formData) {
         };
       }
 
-      // Get Set-Cookie header
-      const setCookie = res.headers.get('Set-Cookie');
+      // Get token from response data (not from Set-Cookie header)
+      const token = data.token || data.accessToken || data.access_token;
 
-      // Get cookieStore before any async operations
-      const cookieStore = await cookies();
-
-      if (setCookie) {
-        // Parse and set cookies
-        const cookieList = setCookie.split(',');
-        cookieList.forEach((cookie) => {
-          const [cookieStr] = cookie.split(';');
-          const [name, value] = cookieStr.split('=');
-          if (name && value) {
-            cookieStore.set(name.trim(), value.trim(), {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === 'production',
-              sameSite: 'lax',
-              path: '/',
-            });
-          }
+      // Set cookie directly in Next.js
+      if (token) {
+        const cookieStore = await cookies();
+        cookieStore.set('access_token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7, // 1 week
         });
       }
 
@@ -142,25 +134,18 @@ export async function adminLoginAction(prevState, formData) {
         };
       }
 
-      // Get Set-Cookie header
-      const setCookie = res.headers.get('Set-Cookie');
-      
-      // Get cookieStore before any async operations
-      const cookieStore = await cookies();
-      
-      if (setCookie) {
-        const cookieList = setCookie.split(',');
-        cookieList.forEach((cookie) => {
-          const [cookieStr] = cookie.split(';');
-          const [name, value] = cookieStr.split('=');
-          if (name && value) {
-            cookieStore.set(name.trim(), value.trim(), {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === 'production',
-              sameSite: 'lax',
-              path: '/',
-            });
-          }
+      // Get token from response data (not from Set-Cookie header)
+      const token = data.token || data.accessToken || data.access_token;
+
+      // Set cookie directly in Next.js
+      if (token) {
+        const cookieStore = await cookies();
+        cookieStore.set('access_token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7, // 1 week
         });
       }
 
