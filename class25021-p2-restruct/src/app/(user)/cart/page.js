@@ -3,6 +3,8 @@ import { getCartItems } from '@/actions/cart';
 import { redirect } from 'next/navigation';
 import CartContent from './CartContent';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CartPage() {
   const cartItems = await getCartItems();
 

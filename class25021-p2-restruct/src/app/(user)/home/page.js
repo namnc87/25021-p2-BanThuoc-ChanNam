@@ -1,6 +1,8 @@
 // Home Page - Server Component
 import { getProducts, getCategories } from '@/actions/products';
 
+export const dynamic = 'force-dynamic';
+
 async function HomePage() {
   const [products, categories] = await Promise.all([
     getProducts(),

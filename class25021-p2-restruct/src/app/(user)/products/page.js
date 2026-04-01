@@ -2,9 +2,11 @@
 import { getProducts, getCategories } from '@/actions/products';
 import ProductList from './ProductList';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProductsPage({ searchParams }) {
   const sp = await searchParams;
-  
+
   const [products, categories] = await Promise.all([
     getProducts(),
     getCategories(),

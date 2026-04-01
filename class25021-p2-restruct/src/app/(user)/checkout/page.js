@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import { getCartItems } from '@/actions/cart';
 import CheckoutForm from './CheckoutForm';
 
+export const dynamic = 'force-dynamic';
+
 async function getUserData() {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
