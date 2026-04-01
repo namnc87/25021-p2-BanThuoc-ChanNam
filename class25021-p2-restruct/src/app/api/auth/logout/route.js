@@ -9,7 +9,8 @@ export async function POST(request) {
     // Call backend logout
     const token = cookieStore.get('access_token')?.value;
     if (token) {
-      await fetch('http://localhost:4000/api/auth/logout', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      await fetch(`${API_URL}/api/auth/logout`, {
         method: 'POST',
         headers: {
           Cookie: `access_token=${token}`,

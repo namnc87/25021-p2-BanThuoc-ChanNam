@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
   const cookieStore = request.headers.get('cookie') || '';
@@ -35,7 +37,7 @@ export async function middleware(request) {
 
   try {
     // Check authentication
-    const authResponse = await fetch('http://localhost:4000/api/auth/me', {
+    const authResponse = await fetch(`${API_URL}/api/auth/me`, {
       headers: { Cookie: cookieStore },
     });
 

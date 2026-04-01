@@ -13,7 +13,8 @@ export default async function AdminLoginPage({ searchParams }) {
 
   if (token) {
     try {
-      const res = await fetch('http://localhost:4000/api/auth/me', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await fetch(`${API_URL}/api/auth/me`, {
         headers: {
           cookie: `access_token=${token}`,
         },

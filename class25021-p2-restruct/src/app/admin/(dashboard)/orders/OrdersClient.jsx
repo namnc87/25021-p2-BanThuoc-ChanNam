@@ -69,7 +69,8 @@ export default function OrdersClient({ orders: initialOrders, user }) {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const res = await authFetch(`http://localhost:4000/api/orders/${orderId}/status`, {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await authFetch(`${API_URL}/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
