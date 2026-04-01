@@ -51,6 +51,22 @@ export async function middleware(request) {
     return response;
   }
 
+  // If no token, redirect to login for protected routes
+  if (!accessToken) {
+    const userProtectedRoutes = ['/cart', '/checkout', '/account'];
+    const isUserProtectedRoute = userProtectedRoutes.some(
+      route => pathname === route || pathname.startsWith(route + '/')
+    );
+    
+    if (isUserProtectedRoute) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    
+    return response;
+  }
+
   try {
     // Check authentication
     const authResponse = await fetch(`${API_URL}/api/auth/me`, {
