@@ -75,17 +75,14 @@ router.put('/:id', authenticateJWT, (req, res) => {
   const index = addresses.findIndex(a => a.id === id && a.userId == userId);
   if (index === -1) return res.status(404).json({ message: 'Địa chỉ không tồn tại' });
 
-  // Cập nhật
-  addresses[index] = {
-    ...addresses[index],
-    recipientName,
-    recipientPhone,
-    fullAddress,
-    isDefault: !!isDefault
-  };
+  // Cập nhật chỉ những trường được cung cấp
+  if (recipientName !== undefined) addresses[index].recipientName = recipientName;
+  if (recipientPhone !== undefined) addresses[index].recipientPhone = recipientPhone;
+  if (fullAddress !== undefined) addresses[index].fullAddress = fullAddress;
+  if (isDefault !== undefined) addresses[index].isDefault = !!isDefault;
 
   // Nếu đặt mặc định, bỏ chọn các địa chỉ khác
-  if (isDefault) {
+  if (addresses[index].isDefault) {
     addresses = addresses.map(addr =>
       addr.userId === userId && addr.id !== id ? { ...addr, isDefault: false } : addr
     );

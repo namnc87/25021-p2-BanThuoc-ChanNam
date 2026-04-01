@@ -11,10 +11,17 @@ import ordersRouter from './routes/orders.js';
 import cartRouter from './routes/cart.js';       
 
 const app = express();
-const PORT = process.env.PORT || 4000; 
+const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: (origin, callback) => {
+    // Allow localhost on any port
+    if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || origin.startsWith('http://192.168.1.18')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());

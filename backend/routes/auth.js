@@ -129,7 +129,7 @@ router.post('/register', (req, res) => {
 // GET /api/auth/me → lấy thông tin user hiện tại
 router.get('/me', authenticateJWT, (req, res) => {
   const userId = req.user.id;
-  
+
   const user = users.find(u => u.id === userId);
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
@@ -141,6 +141,7 @@ router.get('/me', authenticateJWT, (req, res) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      phone: user.phone,
       role: user.role || 'user'
     }
   });
