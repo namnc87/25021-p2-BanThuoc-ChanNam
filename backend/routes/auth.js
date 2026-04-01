@@ -51,12 +51,13 @@ router.post('/login', (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/',
   });
 
   res.json({
     success: true,
+    token: accessToken, // ← Thêm token vào response body
     user: {
       id: user.id,
       name: user.name,
@@ -110,12 +111,13 @@ router.post('/register', (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/',
   });
 
   res.status(201).json({
     success: true,
+    token: accessToken, // ← Thêm token vào response body
     message: 'Đăng ký thành công!',
     user: {
       id: newUser.id,
