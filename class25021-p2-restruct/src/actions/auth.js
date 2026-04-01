@@ -82,7 +82,11 @@ export async function loginAction(prevState, formData) {
         });
       }
 
-      redirect('/');
+      return {
+        success: true,
+        message: 'Đăng nhập thành công',
+        redirect: '/',
+      };
     }
 
     return {
@@ -149,7 +153,11 @@ export async function adminLoginAction(prevState, formData) {
         });
       }
 
-      redirect('/admin/orders');
+      return {
+        success: true,
+        message: 'Đăng nhập thành công',
+        redirect: '/admin/orders',
+      };
     }
 
     return {

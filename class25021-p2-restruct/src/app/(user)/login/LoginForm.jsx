@@ -1,8 +1,9 @@
 // LoginForm - Client Component for form interaction
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { loginAction } from '@/actions/auth';
+import { useRouter } from 'next/navigation';
 
 const initialState = {
   success: false,
@@ -10,7 +11,16 @@ const initialState = {
 };
 
 export default function LoginForm() {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(loginAction, initialState);
+
+  // Redirect on success
+  useEffect(() => {
+    if (state?.success && state.redirect) {
+      router.push(state.redirect);
+      router.refresh();
+    }
+  }, [state, router]);
 
   return (
     <form action={formAction} className="space-y-4">
