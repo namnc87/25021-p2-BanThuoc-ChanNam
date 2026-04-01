@@ -9,8 +9,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 // Helper function to get cookies
 async function getCookieHeader() {
   const cookieStore = await cookies();
-  const cookie = cookieStore.toString();
-  return cookie;
+  const token = cookieStore.get('access_token')?.value;
+  return token ? `access_token=${token}` : '';
 }
 
 // Check current user authentication

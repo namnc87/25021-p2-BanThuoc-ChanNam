@@ -4,7 +4,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
-  const cookieStore = request.headers.get('cookie') || '';
+  
+  // Get cookie from request
+  const cookies = request.cookies.get('access_token')?.value;
+  const cookieHeader = cookies ? `access_token=${cookies}` : '';
 
   // Check static files and API routes
   if (
@@ -38,7 +41,7 @@ export async function middleware(request) {
   try {
     // Check authentication
     const authResponse = await fetch(`${API_URL}/api/auth/me`, {
-      headers: { Cookie: cookieStore },
+      headers: { Cookie: cookieHeader },
     });
 
     const data = authResponse.ok ? await authResponse.json() : null;

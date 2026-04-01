@@ -8,7 +8,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 // Helper to get cookie header
 async function getCookieHeader() {
   const cookieStore = await cookies();
-  return cookieStore.toString();
+  const token = cookieStore.get('access_token')?.value;
+  return token ? `access_token=${token}` : '';
 }
 
 // Get user addresses
