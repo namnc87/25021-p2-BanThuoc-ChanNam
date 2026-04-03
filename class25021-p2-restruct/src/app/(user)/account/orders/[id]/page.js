@@ -1,12 +1,13 @@
-// Order Detail Page - Server Component
+// Order Detail Page - Client Component
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { getOrderById } from '@/actions/orders';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 export default function OrderDetailPage({ params }) {
+  const router = useRouter();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageErrors, setImageErrors] = useState({});
@@ -197,12 +198,15 @@ export default function OrderDetailPage({ params }) {
 
         {/* Back to shopping */}
         <div className="mt-6">
-          <Link
-            href="/products"
+          <button
+            onClick={() => {
+              router.refresh();
+              router.push('/products');
+            }}
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
           >
             Tiếp tục mua sắm
-          </Link>
+          </button>
         </div>
       </div>
     </div>

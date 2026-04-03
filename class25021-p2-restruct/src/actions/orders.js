@@ -3,6 +3,7 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
@@ -114,6 +115,12 @@ export async function createOrderAction(formData) {
           Cookie: cookie,
         },
       });
+
+      // Revalidate paths to update cart count in header
+      revalidatePath('/');
+      revalidatePath('/cart');
+      revalidatePath('/products');
+      revalidatePath('/account/orders');
 
       redirect(`/checkout/confirm?id=${result.orderId}`);
     }

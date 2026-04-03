@@ -1,7 +1,8 @@
 // AdminLoginForm - Client Component for form interaction
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { adminLoginAction } from '@/actions/auth';
 
 const initialState = {
@@ -10,7 +11,14 @@ const initialState = {
 };
 
 export default function AdminLoginForm() {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(adminLoginAction, initialState);
+
+  useEffect(() => {
+    if (state?.success && state?.redirect) {
+      router.push(state.redirect);
+    }
+  }, [state, router]);
 
   return (
     <form action={formAction} className="space-y-4">
