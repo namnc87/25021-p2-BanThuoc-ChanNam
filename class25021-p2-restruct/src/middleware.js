@@ -40,7 +40,9 @@ export async function middleware(request) {
 
   try {
     // Check authentication
-    const authResponse = await fetch(`${API_URL}/auth/me`, {
+    // Handle both cases: API_URL with or without trailing /api
+    const authPath = API_URL.endsWith('/api') ? '/auth/me' : '/api/auth/me';
+    const authResponse = await fetch(`${API_URL}${authPath}`, {
       headers: { Cookie: cookieHeader },
     });
 
