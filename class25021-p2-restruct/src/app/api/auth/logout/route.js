@@ -10,7 +10,8 @@ export async function POST(request) {
     const token = cookieStore.get('access_token')?.value;
     if (token) {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-      await fetch(`${API_URL}/api/auth/logout`, {
+      const logoutPath = API_URL.endsWith('/api') ? '/auth/logout' : '/api/auth/logout';
+      await fetch(`${API_URL}${logoutPath}`, {
         method: 'POST',
         headers: {
           Cookie: `access_token=${token}`,

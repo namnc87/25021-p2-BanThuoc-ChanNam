@@ -16,7 +16,8 @@ async function checkAdminAccess() {
 
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    const res = await fetch(`${API_URL}/api/auth/me`, {
+    const authPath = API_URL.endsWith('/api') ? '/auth/me' : '/api/auth/me';
+    const res = await fetch(`${API_URL}${authPath}`, {
       headers: {
         cookie: `access_token=${token}`,
       },
@@ -38,7 +39,8 @@ async function adminLogout() {
   'use server';
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    await fetch(`${API_URL}/api/auth/logout`, {
+    const logoutPath = API_URL.endsWith('/api') ? '/auth/logout' : '/api/auth/logout';
+    await fetch(`${API_URL}${logoutPath}`, {
       method: 'POST',
       headers: {
         Cookie: cookie.toString(),

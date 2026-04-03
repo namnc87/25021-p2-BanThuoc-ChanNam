@@ -16,7 +16,8 @@ async function getUserData() {
 
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    const res = await fetch(`${API_URL}/api/auth/me`, {
+    const authPath = API_URL.endsWith('/api') ? '/auth/me' : '/api/auth/me';
+    const res = await fetch(`${API_URL}${authPath}`, {
       headers: {
         cookie: `access_token=${token}`,
       },
