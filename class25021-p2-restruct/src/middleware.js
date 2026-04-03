@@ -40,7 +40,7 @@ export async function middleware(request) {
 
   try {
     // Check authentication
-    const authResponse = await fetch(`${API_URL}/api/auth/me`, {
+    const authResponse = await fetch(`${API_URL}/auth/me`, {
       headers: { Cookie: cookieHeader },
     });
 
