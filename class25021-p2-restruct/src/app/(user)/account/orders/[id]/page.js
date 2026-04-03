@@ -1,41 +1,12 @@
-// Order Detail Page - Client Component
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+// Order Detail Page - Server Component
 import { getOrderById } from '@/actions/orders';
 import Link from 'next/link';
+import SafeImage from '@/components/ui/SafeImage';
+import ContinueShoppingButton from './ContinueShoppingButton';
 
-export default function OrderDetailPage({ params }) {
-  const router = useRouter();
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [imageErrors, setImageErrors] = useState({});
-
-  useEffect(() => {
-    async function fetchOrder() {
-      try {
-        const { id } = await params;
-        const data = await getOrderById(id);
-        if (data) {
-          setOrder(data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch order:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchOrder();
-  }, [params]);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <p className="text-center">Đang tải...</p>
-      </div>
-    );
-  }
+export default async function OrderDetailPage({ params }) {
+  const { id } = await params;
+  const order = await getOrderById(id);
 
   if (!order) {
     return (
@@ -143,17 +114,15 @@ export default function OrderDetailPage({ params }) {
               </thead>
               <tbody>
                 {order.items?.map((item, index) => {
-                  // Handle different image field names (image, productImage)
                   const itemImage = item.image || item.productImage || '/images/no-image.png';
                   return (
                   <tr key={index} className="border-t">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        <img
-                          src={imageErrors[index] ? '/images/no-image.png' : itemImage}
+                        <SafeImage
+                          src={itemImage}
                           alt={item.productName || item.name || 'Sản phẩm'}
                           className="w-12 h-12 object-cover rounded"
-                          onError={() => setImageErrors(prev => ({ ...prev, [index]: true }))}
                         />
                         <span>{item.productName || item.name || 'Không rõ tên'}</span>
                       </div>
@@ -198,15 +167,7 @@ export default function OrderDetailPage({ params }) {
 
         {/* Back to shopping */}
         <div className="mt-6">
-          <button
-            onClick={() => {
-              router.refresh();
-              router.push('/products');
-            }}
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Tiếp tục mua sắm
-          </button>
+          <ContinueShoppingButton />
         </div>
       </div>
     </div>

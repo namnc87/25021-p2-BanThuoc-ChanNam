@@ -1,11 +1,8 @@
-// OrderConfirmationView - Client Component
-'use client';
-
+// OrderConfirmationView - Server Component
 import Link from 'next/link';
-import { useState } from 'react';
+import SafeImage from '@/components/ui/SafeImage';
 
 export default function OrderConfirmationView({ order }) {
-  const [imageError, setImageError] = useState(false);
   const getStatusText = (status) => {
     const map = {
       pending: 'Đang chờ xác nhận',
@@ -156,17 +153,14 @@ export default function OrderConfirmationView({ order }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {order.items?.map((item, index) => {
-                    const itemImageError = imageError && item.image === order.items[index]?.image;
-                    return (
+                  {order.items?.map((item, index) => (
                     <tr key={index} className="border-b">
                       <td className="py-3">
                         <div className="flex items-center gap-3">
-                          <img
-                            src={itemImageError || !item.image ? '/images/no-image.png' : item.image}
+                          <SafeImage
+                            src={item.image || '/images/no-image.png'}
                             alt={item.productName}
                             className="w-12 h-12 object-cover rounded"
-                            onError={() => setImageError(true)}
                           />
                           <span>{item.productName}</span>
                         </div>
@@ -178,8 +172,7 @@ export default function OrderConfirmationView({ order }) {
                         {formatCurrency(getNumberValue(item.price) * getNumberValue(item.quantity))}
                       </td>
                     </tr>
-                  );
-                  })}
+                  ))}
                 </tbody>
               </table>
             </div>
