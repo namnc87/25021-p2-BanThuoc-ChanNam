@@ -65,7 +65,7 @@ export default async function Header() {
                 </Link>
 
                 {/* Logout form - Server Action */}
-                <form action={logoutAction} method="POST">
+                <form action={logoutAction}>
                   <button
                     type="submit"
                     className="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 hover:text-red-600 transition-colors"
