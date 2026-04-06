@@ -1,6 +1,6 @@
 // Header - Server Component
 import Link from 'next/link';
-import { checkAuth } from '@/actions/auth';
+import { checkAuth, logoutAction } from '@/actions/auth';
 import { getCartCount } from '@/actions/cart';
 import HeaderClient from './HeaderClient';
 import { headers } from 'next/headers';
@@ -65,7 +65,7 @@ export default async function Header() {
                 </Link>
 
                 {/* Logout form - Server Action */}
-                <form action="/api/auth/logout" method="POST">
+                <form action={logoutAction} method="POST">
                   <button
                     type="submit"
                     className="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 hover:text-red-600 transition-colors"

@@ -38,12 +38,15 @@ async function checkAdminAccess() {
 async function adminLogout() {
   'use server';
   try {
+    const cookieStore = await cookies();
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
     const logoutPath = API_URL.endsWith('/api') ? '/auth/logout' : '/api/auth/logout';
+    const token = cookieStore.get('access_token')?.value;
+
     await fetch(`${API_URL}${logoutPath}`, {
       method: 'POST',
       headers: {
-        Cookie: cookie.toString(),
+        cookie: `access_token=${token}`,
       },
     });
   } catch (error) {

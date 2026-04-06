@@ -11,6 +11,8 @@ export default async function LoginPage({ searchParams }) {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
 
+  let user = null;
+
   if (token) {
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
@@ -24,17 +26,20 @@ export default async function LoginPage({ searchParams }) {
 
       if (res.ok) {
         const data = await res.json();
-        if (data.user) {
-          // Block admin users from customer login page
-          if (data.user.role === 'admin') {
-            redirect('/?error=admin_blocked');
-          }
-          redirect('/');
-        }
+        user = data.user;
       }
     } catch (error) {
       // Continue to show login form
+      console.log(error)
     }
+  }
+
+  if (user) {
+    // Block admin users from customer login page
+    if (user.role === 'admin') {
+      redirect('/?error=admin_blocked');
+    }
+    redirect('/');
   }
 
   return (
