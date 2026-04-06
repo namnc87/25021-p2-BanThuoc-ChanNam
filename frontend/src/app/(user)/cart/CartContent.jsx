@@ -23,10 +23,7 @@ export default function CartContent({
 
     const result = await updateCartItemAction(id, newQty);
 
-    if (result.success) {
-      // Refresh by redirecting to same page
-      window.location.reload();
-    } else if (result.requiresAuth) {
+    if (result.requiresAuth && !result.success) {
       alert('⚠️ ' + result.message);
       router.push('/login?redirect=/cart');
     }
@@ -40,9 +37,7 @@ export default function CartContent({
     setLoadingId(id);
     const result = await removeCartItemAction(id);
 
-    if (result.success) {
-      window.location.reload();
-    } else if (result.requiresAuth) {
+  if (result.requiresAuth && !result.success) {
       alert('⚠️ ' + result.message);
       router.push('/login?redirect=/cart');
     }

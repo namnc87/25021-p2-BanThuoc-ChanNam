@@ -44,7 +44,7 @@ export default function ProductList({
               <p className="text-gray-600">
                 Tìm thấy <span className="font-bold text-blue-600">{products.length}</span> sản phẩm
                 {currentFilters.search && (
-                  <span> cho "<span className="font-semibold">{currentFilters.search}</span>"</span>
+                  <span> cho &quot;<span className="font-semibold">{currentFilters.search}</span>&quot;</span>
                 )}
               </p>
             </div>

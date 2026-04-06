@@ -122,6 +122,8 @@ export async function updateCartItemAction(itemId, quantity) {
     });
 
     if (res.ok) {
+      revalidatePath('/cart');
+      revalidatePath('/');
       return { success: true };
     }
 
@@ -162,6 +164,8 @@ export async function removeCartItemAction(itemId) {
     });
 
     if (res.ok) {
+      revalidatePath('/cart');
+      revalidatePath('/');
       return { success: true };
     }
 
