@@ -13,22 +13,13 @@ import cartRouter from './routes/cart.js';
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow all origins for production
-    if (!origin || 
-        origin.startsWith('http://localhost') || 
-        origin.startsWith('http://127.0.0.1') || 
-        origin.startsWith('http://192.168.1.18') ||
-        origin.includes('vercel.app') ||
-        origin.includes('two5021-p2-pharma-hub-backend.onrender.com')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || true,
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 app.use(cookieParser()); 
 
