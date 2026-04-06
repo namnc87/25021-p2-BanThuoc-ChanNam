@@ -1,4 +1,4 @@
-// src/components/layout/Footer.jsx
+// Footer - Server Component (no client interaction needed)
 export default function Footer() {
   return (
     <footer className="bg-gray-800 text-white pt-12 pb-6">
