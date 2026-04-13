@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { addToCartAction } from '@/actions/cart';
 import { useRouter } from 'next/navigation';
+import { CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 
 export default function AddToCartButton({ product, selectedUnitIndex = 0, quantity = 1 }) {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function AddToCartButton({ product, selectedUnitIndex = 0, quanti
     );
 
     if (result.success) {
-      setMessage('✅ Đã thêm vào giỏ hàng!');
+      setMessage('success');
       // Refresh page after 1 second to update cart count in header
       setTimeout(() => {
         router.refresh();
@@ -33,12 +34,12 @@ export default function AddToCartButton({ product, selectedUnitIndex = 0, quanti
     } else {
       if (result.requiresAuth) {
         // Show message and redirect to login
-        setMessage(`⚠️ ${result.message}`);
+        setMessage(`warning: ${result.message}`);
         setTimeout(() => {
           router.push('/login?redirect=/products/' + product.id);
         }, 1500);
       } else {
-        setMessage(`❌ ${result.message}`);
+        setMessage(`error: ${result.message}`);
       }
     }
 
@@ -58,8 +59,13 @@ export default function AddToCartButton({ product, selectedUnitIndex = 0, quanti
       </button>
 
       {message && (
-        <div className={`mt-3 p-2 rounded text-center ${message.includes('✅') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-          {message}
+        <div className={`mt-3 p-2 rounded text-center flex items-center justify-center gap-2 ${
+          message.startsWith('success') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+        }`}>
+          {message.startsWith('success') && <CheckCircle className="w-4 h-4" />}
+          {message.startsWith('warning') && <AlertTriangle className="w-4 h-4" />}
+          {message.startsWith('error') && <XCircle className="w-4 h-4" />}
+          {message.replace(/^(success|warning|error): /, '').replace('success', 'Đã thêm vào giỏ hàng!')}
         </div>
       )}
     </>

@@ -1,6 +1,7 @@
 // OrderConfirmationView - Server Component
 import Link from 'next/link';
 import SafeImage from '@/components/ui/SafeImage';
+import { CheckCircle, Package, CreditCard, AlertTriangle } from 'lucide-react';
 
 export default function OrderConfirmationView({ order }) {
   const getStatusText = (status) => {
@@ -50,9 +51,7 @@ export default function OrderConfirmationView({ order }) {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
+              <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
             <h1 className="text-3xl font-bold text-green-600 mb-2">Đặt hàng thành công!</h1>
             <p className="text-gray-600">Cảm ơn bạn đã mua hàng tại PharmaHub</p>
@@ -95,7 +94,7 @@ export default function OrderConfirmationView({ order }) {
             <h2 className="text-xl font-bold mb-4">Phương thức thanh toán</h2>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                {order.paymentMethod === 'cod' ? '📦' : '💳'}
+                {order.paymentMethod === 'cod' ? <Package className="w-5 h-5 text-blue-600" /> : <CreditCard className="w-5 h-5 text-blue-600" />}
               </div>
               <div>
                 <p className="font-semibold">
@@ -128,9 +127,10 @@ export default function OrderConfirmationView({ order }) {
                     <span className="text-gray-600">Nội dung chuyển khoản:</span>
                     <span className="font-medium text-blue-600">{order.userName || 'Khách hàng'} - Thanh toan don hang #{order.id}</span>
                   </div>
-                  <div className="mt-3 p-2 bg-yellow-100 border border-yellow-200 rounded text-yellow-800">
+                  <div className="mt-3 p-2 bg-yellow-100 border border-yellow-200 rounded text-yellow-800 flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                     <p className="text-xs">
-                      ⚠️ Vui lòng chụp ảnh màn hình chuyển khoản và gửi đến hotline 1900 1234 để xác nhận thanh toán.
+                      Vui lòng chụp ảnh màn hình chuyển khoản và gửi đến hotline 1900 1234 để xác nhận thanh toán.
                     </p>
                   </div>
                 </div>

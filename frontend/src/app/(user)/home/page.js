@@ -2,6 +2,7 @@
 import { getProducts, getCategories } from '@/actions/products';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Pill, Bandage, Bot, Baby, Dumbbell, Leaf, MapPin, Phone, Mail } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,13 +71,13 @@ async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {categories.map((category, index) => {
               // Different icons for different categories
-              const icons = ['💊', '🩹', '🧴', '👶', '💪', '🌿'];
-              const icon = icons[index % icons.length];
-              
+              const iconMap = [Pill, Bandage, Bot, Baby, Dumbbell, Leaf];
+              const IconComponent = iconMap[index % iconMap.length];
+
               return (
                 <div key={category.id} className="bg-white rounded-lg shadow p-6 text-center">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-                    {icon}
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <IconComponent className="w-8 h-8 text-blue-600" />
                   </div>
                   <h3 className="font-bold text-lg">{category.name}</h3>
                   <p className="text-gray-600 text-sm mt-2">{category.description}</p>
@@ -100,17 +101,23 @@ async function HomePage() {
           <div className="max-w-2xl mx-auto text-center">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div>
-                <div className="text-4xl mb-2">📍</div>
+                <div className="flex justify-center mb-2">
+                  <MapPin className="w-10 h-10 text-blue-600" />
+                </div>
                 <h3 className="font-bold mb-2">Địa chỉ</h3>
                 <p className="text-gray-600">123 Đường ABC, Quận 1, TP.HCM</p>
               </div>
               <div>
-                <div className="text-4xl mb-2">📞</div>
+                <div className="flex justify-center mb-2">
+                  <Phone className="w-10 h-10 text-blue-600" />
+                </div>
                 <h3 className="font-bold mb-2">Hotline</h3>
                 <p className="text-gray-600">1900 1234</p>
               </div>
               <div>
-                <div className="text-4xl mb-2">📧</div>
+                <div className="flex justify-center mb-2">
+                  <Mail className="w-10 h-10 text-blue-600" />
+                </div>
                 <h3 className="font-bold mb-2">Email</h3>
                 <p className="text-gray-600">info@pharmahub.vn</p>
               </div>
