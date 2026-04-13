@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { updateCartItemAction, removeCartItemAction } from '@/actions/cart';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
 
 export default function CartContent({
   cartItems,
@@ -13,6 +14,8 @@ export default function CartContent({
 }) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const handleUpdateQuantity = async (id, delta) => {
     const item = cartItems.find(i => i.id === id);
@@ -24,8 +27,10 @@ export default function CartContent({
     const result = await updateCartItemAction(id, newQty);
 
     if (result.requiresAuth && !result.success) {
-      alert('⚠️ ' + result.message);
-      router.push('/login?redirect=/cart');
+      setMessage({ type: 'error', text: '⚠️ ' + result.message });
+      setTimeout(() => {
+        router.push('/login?redirect=/cart');
+      }, 1500);
       return;
     }
 
@@ -34,14 +39,14 @@ export default function CartContent({
   };
 
   const handleRemoveItem = async (id) => {
-    if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) return;
-
     setLoadingId(id);
     const result = await removeCartItemAction(id);
 
     if (result.requiresAuth && !result.success) {
-      alert('⚠️ ' + result.message);
-      router.push('/login?redirect=/cart');
+      setMessage({ type: 'error', text: '⚠️ ' + result.message });
+      setTimeout(() => {
+        router.push('/login?redirect=/cart');
+      }, 1500);
       return;
     }
 
@@ -55,6 +60,12 @@ export default function CartContent({
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {message && (
+        <div className={`p-3 rounded mb-4 ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+          {message.text}
+        </div>
+      )}
+
       <h1 className="text-2xl font-bold mb-4">Giỏ hàng của bạn ({totals.totalItems} sản phẩm)</h1>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -101,7 +112,7 @@ export default function CartContent({
                 <div className="text-right">
                   <p className="font-bold">{formatCurrency(item.price * item.quantity)}</p>
                   <button
-                    onClick={() => handleRemoveItem(item.id)}
+                    onClick={() => setConfirmDelete(item.id)}
                     disabled={loadingId === item.id}
                     className="text-red-600 hover:text-red-800 mt-1 text-sm disabled:opacity-50"
                   >
@@ -150,6 +161,19 @@ export default function CartContent({
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={!!confirmDelete}
+        title="Xóa sản phẩm"
+        message="Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?"
+        onConfirm={() => {
+          if (confirmDelete) handleRemoveItem(confirmDelete);
+          setConfirmDelete(null);
+        }}
+        onCancel={() => setConfirmDelete(null)}
+        confirmText="Xóa"
+        cancelText="Hủy"
+      />
     </div>
   );
 }

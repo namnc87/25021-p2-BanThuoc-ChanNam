@@ -4,6 +4,7 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { addAddressAction, deleteAddressAction, setDefaultAddressAction } from '@/actions/user';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
 
 export default function AddressesList({ addresses }) {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function AddressesList({ addresses }) {
   const [isPending, startTransition] = useTransition();
   const [formErrors, setFormErrors] = useState({});
   const [message, setMessage] = useState(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [formData, setFormData] = useState({
     recipientName: '',
     recipientPhone: '',
@@ -77,8 +79,6 @@ export default function AddressesList({ addresses }) {
   };
 
   const handleDelete = async (addressId) => {
-    if (!confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) return;
-
     const result = await deleteAddressAction(addressId);
     if (result) {
       router.refresh();
@@ -235,7 +235,7 @@ export default function AddressesList({ addresses }) {
                   </button>
                 )}
                 <button
-                  onClick={() => handleDelete(address.id)}
+                  onClick={() => setConfirmDeleteId(address.id)}
                   className="text-red-600 hover:text-red-800 text-sm"
                 >
                   Xóa
@@ -245,6 +245,21 @@ export default function AddressesList({ addresses }) {
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!confirmDeleteId}
+        title="Xóa địa chỉ"
+        message="Bạn có chắc chắn muốn xóa địa chỉ này?"
+        onConfirm={() => {
+          if (confirmDeleteId) {
+            handleDelete(confirmDeleteId);
+            setConfirmDeleteId(null);
+          }
+        }}
+        onCancel={() => setConfirmDeleteId(null)}
+        confirmText="Xóa"
+        cancelText="Hủy"
+      />
     </div>
   );
 }

@@ -12,6 +12,7 @@ export default function AdminOrdersTable({ initialOrders }) {
   const [paymentFilter, setPaymentFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [isPending, startTransition] = useTransition();
+  const [message, setMessage] = useState(null);
   const itemsPerPage = 10;
 
   const getStatusText = (status) => {
@@ -72,14 +73,23 @@ export default function AdminOrdersTable({ initialOrders }) {
         setOrders(prev => prev.map(order =>
           order.id === orderId ? result.order : order
         ));
+        setMessage({ type: 'success', text: 'Cập nhật trạng thái thành công!' });
+        setTimeout(() => setMessage(null), 3000);
       } else {
-        alert(result.message || 'Cập nhật trạng thái thất bại');
+        setMessage({ type: 'error', text: result.message || 'Cập nhật trạng thái thất bại' });
+        setTimeout(() => setMessage(null), 3000);
       }
     });
   };
 
   return (
     <div className="bg-white rounded-lg shadow">
+      {message && (
+        <div className={`p-3 rounded mx-6 mt-4 ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+          {message.text}
+        </div>
+      )}
+
       {/* Header */}
       <div className="border-b">
         <div className="px-6 py-4">
