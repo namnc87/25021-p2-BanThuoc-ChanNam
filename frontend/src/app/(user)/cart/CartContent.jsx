@@ -12,11 +12,10 @@ export default function CartContent({
   totals
 }) {
   const router = useRouter();
-  const [items, setItems] = useState(cartItems);
   const [loadingId, setLoadingId] = useState(null);
 
   const handleUpdateQuantity = async (id, delta) => {
-    const item = items.find(i => i.id === id);
+    const item = cartItems.find(i => i.id === id);
     if (!item) return;
 
     const newQty = Math.max(1, item.quantity + delta);
@@ -27,8 +26,10 @@ export default function CartContent({
     if (result.requiresAuth && !result.success) {
       alert('⚠️ ' + result.message);
       router.push('/login?redirect=/cart');
+      return;
     }
 
+    router.refresh();
     setLoadingId(null);
   };
 
@@ -38,11 +39,13 @@ export default function CartContent({
     setLoadingId(id);
     const result = await removeCartItemAction(id);
 
-  if (result.requiresAuth && !result.success) {
+    if (result.requiresAuth && !result.success) {
       alert('⚠️ ' + result.message);
       router.push('/login?redirect=/cart');
+      return;
     }
 
+    router.refresh();
     setLoadingId(null);
   };
 
@@ -58,7 +61,7 @@ export default function CartContent({
         {/* Danh sách sản phẩm */}
         <div className="lg:w-2/3">
           <div className="bg-white rounded-lg shadow p-4">
-            {items.map((item) => (
+            {cartItems.map((item) => (
               <div key={item.id} className="flex items-center gap-4 py-4 border-b border-gray-200 last:border-0">
                 <Image
                   src={item.productImage || '/images/no-image.png'}
