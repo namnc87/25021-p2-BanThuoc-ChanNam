@@ -67,7 +67,7 @@ export default async function LoginPage({ searchParams }) {
           </div>
         )}
 
-        <LoginForm />
+        <LoginForm redirectTo={sp.redirect || '/'} />
 
         <div className="mt-6 text-center">
           <div className="mb-4">

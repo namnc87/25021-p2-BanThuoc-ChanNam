@@ -10,7 +10,7 @@ const initialState = {
   message: '',
 };
 
-export default function LoginForm() {
+export default function LoginForm({ redirectTo = '/' }) {
   const router = useRouter();
   const [state, formAction, isPending] = useActionState(loginAction, initialState);
 
@@ -24,6 +24,7 @@ export default function LoginForm() {
 
   return (
     <form action={formAction} className="space-y-4">
+      <input type="hidden" name="redirectTo" value={redirectTo} />
       {state?.message && !state.success && (
         <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
           {state.message}

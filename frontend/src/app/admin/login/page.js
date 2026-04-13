@@ -36,7 +36,7 @@ export default async function AdminLoginPage({ searchParams }) {
 
   if (user) {
     if (user.role === "admin") {
-      redirect("/admin/home");
+      redirect(sp.redirect || "/admin/orders");
     }
     
     redirect("/?error=admin_blocked");
@@ -75,7 +75,7 @@ export default async function AdminLoginPage({ searchParams }) {
           </div>
         )}
 
-        <AdminLoginForm />
+        <AdminLoginForm redirectTo={sp.redirect || '/admin/orders'} />
 
         <div className="mt-6 pt-6 border-t border-gray-200">
           <p className="text-xs text-gray-500 text-center">

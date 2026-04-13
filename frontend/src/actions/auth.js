@@ -40,6 +40,7 @@ export async function checkAuth() {
 export async function loginAction(prevState, formData) {
   const email = formData.get('email');
   const password = formData.get('password');
+  const redirectTo = formData.get('redirectTo') || '/';
 
   if (!email || !password) {
     return {
@@ -86,7 +87,7 @@ export async function loginAction(prevState, formData) {
       return {
         success: true,
         message: 'Đăng nhập thành công',
-        redirect: '/',
+        redirect: redirectTo,
       };
     }
 
@@ -111,6 +112,7 @@ export async function loginAction(prevState, formData) {
 export async function adminLoginAction(prevState, formData) {
   const email = formData.get('email');
   const password = formData.get('password');
+  const redirectTo = formData.get('redirectTo') || '/admin/orders';
 
   if (!email || !password) {
     return {
@@ -157,7 +159,7 @@ export async function adminLoginAction(prevState, formData) {
       return {
         success: true,
         message: 'Đăng nhập thành công',
-        redirect: '/admin/orders',
+        redirect: redirectTo,
       };
     }
 
