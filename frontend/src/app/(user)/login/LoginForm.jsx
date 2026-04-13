@@ -57,15 +57,6 @@ export default function LoginForm() {
         />
       </div>
 
-      <div className="flex items-center justify-between">
-        <a
-          href="/forgot-password"
-          className="text-sm text-blue-600 hover:underline"
-        >
-          Quên mật khẩu?
-        </a>
-      </div>
-
       <button
         type="submit"
         disabled={isPending}

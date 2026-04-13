@@ -2,6 +2,7 @@
 import { getCartItems } from '@/actions/cart';
 import { redirect } from 'next/navigation';
 import CartContent from './CartContent';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,12 +14,12 @@ export default async function CartPage() {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-4">Giỏ hàng của bạn</h1>
         <p className="text-gray-600">Giỏ hàng hiện đang trống.</p>
-        <a
+        <Link
           href="/products"
           className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           Tiếp tục mua sắm
-        </a>
+        </Link>
       </div>
     );
   }
