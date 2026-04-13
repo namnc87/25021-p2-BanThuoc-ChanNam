@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi">
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
