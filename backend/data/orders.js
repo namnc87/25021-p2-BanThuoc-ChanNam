@@ -49,7 +49,7 @@ export const orders = [
         unit: "Lọ 100 viên", 
         quantity: 1, 
         price: 250000,
-        image: "images/products/med004.jfif"
+        image: "images/products/med004.jpg"
       }
     ],
     subtotal: 430000,
@@ -73,7 +73,7 @@ export const orders = [
         unit: "Chai 100ml", 
         quantity: 1, 
         price: 95000,
-        image: "images/products/med005.jfif"
+        image: "images/products/med005.jpg"
       }
     ],
     subtotal: 95000,
