@@ -5,12 +5,12 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { addAddressAction, deleteAddressAction, setDefaultAddressAction } from '@/actions/user';
 
-export default function AddressesList({ addresses: initialAddresses }) {
+export default function AddressesList({ addresses }) {
   const router = useRouter();
-  const [addresses, setAddresses] = useState(initialAddresses);
   const [showAddForm, setShowAddForm] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [formErrors, setFormErrors] = useState({});
+  const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({
     recipientName: '',
     recipientPhone: '',
@@ -45,11 +45,16 @@ export default function AddressesList({ addresses: initialAddresses }) {
         router.refresh();
         setShowAddForm(false);
         setFormData({ recipientName: '', recipientPhone: '', fullAddress: '', isDefault: false });
+        setMessage({ type: 'success', text: 'Thêm địa chỉ thành công!' });
+        setTimeout(() => setMessage(null), 3000);
       } else if (result.requiresAuth) {
-        alert('⚠️ ' + result.message);
-        router.push('/login?redirect=/account/addresses');
+        setMessage({ type: 'error', text: '⚠️ ' + result.message });
+        setTimeout(() => {
+          router.push('/login?redirect=/account/addresses');
+        }, 1500);
       } else {
-        alert(result.message || 'Không thể thêm địa chỉ');
+        setMessage({ type: 'error', text: result.message || 'Không thể thêm địa chỉ' });
+        setTimeout(() => setMessage(null), 3000);
       }
     });
   };
@@ -58,11 +63,16 @@ export default function AddressesList({ addresses: initialAddresses }) {
     const result = await setDefaultAddressAction(addressId);
     if (result.success) {
       router.refresh();
+      setMessage({ type: 'success', text: 'Đã cập nhật địa chỉ mặc định' });
+      setTimeout(() => setMessage(null), 3000);
     } else if (result.requiresAuth) {
-      alert('⚠️ ' + result.message);
-      router.push('/login?redirect=/account/addresses');
+      setMessage({ type: 'error', text: '⚠️ ' + result.message });
+      setTimeout(() => {
+        router.push('/login?redirect=/account/addresses');
+      }, 1500);
     } else {
-      alert(result.message || 'Lỗi khi cập nhật địa chỉ mặc định');
+      setMessage({ type: 'error', text: result.message || 'Lỗi khi cập nhật địa chỉ mặc định' });
+      setTimeout(() => setMessage(null), 3000);
     }
   };
 
@@ -72,19 +82,30 @@ export default function AddressesList({ addresses: initialAddresses }) {
     const result = await deleteAddressAction(addressId);
     if (result) {
       router.refresh();
+      setMessage({ type: 'success', text: 'Đã xóa địa chỉ' });
+      setTimeout(() => setMessage(null), 3000);
     } else {
       const checkResult = await deleteAddressAction(addressId);
       if (checkResult?.requiresAuth) {
-        alert('⚠️ ' + checkResult.message);
-        router.push('/login?redirect=/account/addresses');
+        setMessage({ type: 'error', text: '⚠️ ' + checkResult.message });
+        setTimeout(() => {
+          router.push('/login?redirect=/account/addresses');
+        }, 1500);
       } else {
-        alert('Không thể xóa địa chỉ');
+        setMessage({ type: 'error', text: 'Không thể xóa địa chỉ' });
+        setTimeout(() => setMessage(null), 3000);
       }
     }
   };
 
   return (
     <div className="space-y-6">
+      {message && (
+        <div className={`p-3 rounded ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+          {message.text}
+        </div>
+      )}
+
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-bold">Danh sách địa chỉ</h3>
         <button
