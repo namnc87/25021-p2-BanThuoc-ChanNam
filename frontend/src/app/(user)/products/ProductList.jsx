@@ -100,6 +100,7 @@ export default function ProductList({
                           width={200}
                           height={200}
                           className="max-w-full max-h-full object-contain"
+                          style={{ width: 'auto', height: 'auto' }}
                         />
                       </div>
                       <h3 className="font-semibold text-lg mb-2 line-clamp-1">{product.name}</h3>

@@ -228,6 +228,7 @@ export default function CheckoutForm({
                     width={64}
                     height={64}
                     className="rounded"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                   <div className="flex-1">
                     <h3 className="font-medium">{item.productName}</h3>

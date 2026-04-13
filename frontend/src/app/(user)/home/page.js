@@ -42,6 +42,8 @@ async function HomePage() {
                       width={200}
                       height={200}
                       className="max-w-full max-h-full object-contain"
+                      style={{ width: 'auto', height: 'auto' }}
+                      loading="eager"
                     />
                   </div>
                   <h3 className="font-semibold">{product.name}</h3>

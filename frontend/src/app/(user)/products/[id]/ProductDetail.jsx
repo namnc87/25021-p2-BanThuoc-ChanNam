@@ -45,6 +45,8 @@ export default function ProductDetail({ product }) {
                 alt={product.name}
                 fill
                 className="object-contain"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
                 onError={() => setImageError(true)}
               />
             </div>
@@ -66,6 +68,7 @@ export default function ProductDetail({ product }) {
                     width={80}
                     height={80}
                     className="w-full h-full object-cover"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                   </button>
                 ))}

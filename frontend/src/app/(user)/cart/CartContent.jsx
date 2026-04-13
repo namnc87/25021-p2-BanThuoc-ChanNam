@@ -69,6 +69,7 @@ export default function CartContent({
                   width={64}
                   height={64}
                   className="rounded"
+                  style={{ width: 'auto', height: 'auto' }}
                 />
                 <div className="flex-1">
                   <h3 className="font-semibold">{item.productName}</h3>
