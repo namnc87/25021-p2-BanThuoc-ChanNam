@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getCartItems } from '@/actions/cart';
 import CheckoutForm from './CheckoutForm';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,9 +52,9 @@ export default async function CheckoutPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl text-red-600">Giỏ hàng trống</h1>
-        <a href="/products" className="text-blue-600 hover:underline">
+        <Link href="/products" className="text-blue-600 hover:underline">
           Tiếp tục mua sắm
-        </a>
+        </Link>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 // Home Page - Server Component
 import { getProducts, getCategories } from '@/actions/products';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,9 +19,9 @@ async function HomePage() {
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-4">Nhà thuốc trực tuyến uy tín</h1>
           <p className="text-xl mb-6">Cung cấp thuốc chất lượng cao, giao hàng nhanh chóng, tư vấn chuyên nghiệp 24/7</p>
-          <a href="/products" className="bg-white text-green-600 px-6 py-3 rounded font-bold hover:bg-gray-100 inline-block">
+          <Link href="/products" className="bg-white text-green-600 px-6 py-3 rounded font-bold hover:bg-gray-100 inline-block">
             Khám phá ngay
-          </a>
+          </Link>
         </div>
       </section>
 
