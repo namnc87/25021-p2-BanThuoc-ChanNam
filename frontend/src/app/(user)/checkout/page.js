@@ -51,10 +51,16 @@ export default async function CheckoutPage() {
   if (cartItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl text-red-600">Giỏ hàng trống</h1>
-        <Link href="/products" className="text-blue-600 hover:underline">
-          Tiếp tục mua sắm
-        </Link>
+        <h1 className="text-2xl font-bold mb-4">Thanh toán</h1>
+        <p className="text-gray-600 mb-4">Giỏ hàng hiện đang trống.</p>
+        <div className="flex gap-4">
+          <Link href="/products" className="text-blue-600 hover:underline">
+            ← Tiếp tục mua sắm
+          </Link>
+          <Link href="/cart" className="text-blue-600 hover:underline">
+            Xem giỏ hàng
+          </Link>
+        </div>
       </div>
     );
   }

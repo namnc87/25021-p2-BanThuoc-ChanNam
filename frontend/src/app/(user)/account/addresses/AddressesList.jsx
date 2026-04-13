@@ -80,21 +80,18 @@ export default function AddressesList({ addresses }) {
 
   const handleDelete = async (addressId) => {
     const result = await deleteAddressAction(addressId);
-    if (result) {
+    if (result.success) {
       router.refresh();
       setMessage({ type: 'success', text: 'Đã xóa địa chỉ' });
       setTimeout(() => setMessage(null), 3000);
+    } else if (result.requiresAuth) {
+      setMessage({ type: 'error', text: '⚠️ ' + result.message });
+      setTimeout(() => {
+        router.push('/login?redirect=/account/addresses');
+      }, 1500);
     } else {
-      const checkResult = await deleteAddressAction(addressId);
-      if (checkResult?.requiresAuth) {
-        setMessage({ type: 'error', text: '⚠️ ' + checkResult.message });
-        setTimeout(() => {
-          router.push('/login?redirect=/account/addresses');
-        }, 1500);
-      } else {
-        setMessage({ type: 'error', text: 'Không thể xóa địa chỉ' });
-        setTimeout(() => setMessage(null), 3000);
-      }
+      setMessage({ type: 'error', text: result.message || 'Không thể xóa địa chỉ' });
+      setTimeout(() => setMessage(null), 3000);
     }
   };
 

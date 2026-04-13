@@ -192,7 +192,11 @@ export async function updateProfileAction(formData) {
     }
 
     const error = await res.json();
-    return { success: false, message: error.message };
+    const isEmailConflict = res.status === 409;
+    return {
+      success: false,
+      message: isEmailConflict ? 'Email đã được sử dụng bởi tài khoản khác' : (error.message || 'Không thể cập nhật thông tin'),
+    };
   } catch (error) {
     console.error('Update profile failed:', error);
     return { success: false, message: 'Lỗi kết nối server' };
