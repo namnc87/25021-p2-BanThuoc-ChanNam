@@ -4,6 +4,7 @@ import { checkAuth, logoutAction } from '@/actions/auth';
 import { getCartCount } from '@/actions/cart';
 import HeaderClient from './HeaderClient';
 import { headers } from 'next/headers';
+import { ShoppingCart } from 'lucide-react';
 
 export default async function Header() {
   const headersList = await headers();
@@ -92,9 +93,7 @@ export default async function Header() {
             {!isAdmin && (
               <Link href="/cart" className="relative hover:text-blue-600">
                 <div className="relative">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                  </svg>
+                  <ShoppingCart className="w-6 h-6" />
                   {cartCount > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       {cartCount > 99 ? '99+' : cartCount}

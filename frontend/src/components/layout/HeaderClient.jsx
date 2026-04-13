@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Search } from 'lucide-react';
 
 export default function HeaderClient() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,7 +31,7 @@ export default function HeaderClient() {
           type="submit"
           className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-600"
         >
-          🔍
+          <Search className="w-5 h-5" />
         </button>
       </div>
     </form>
