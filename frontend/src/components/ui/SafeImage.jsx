@@ -8,6 +8,19 @@ export default function SafeImage({ src, alt, className, fallbackSrc = '/images/
 
   const imageSrc = error ? fallbackSrc : src;
 
+  // Nếu không có width/height/fill, fallback sang img thường
+  if (!width && !height && !fill) {
+    return (
+      <img
+        src={imageSrc}
+        alt={alt}
+        className={className}
+        onError={() => setError(true)}
+        {...rest}
+      />
+    );
+  }
+
   return (
     <Image
       src={imageSrc}

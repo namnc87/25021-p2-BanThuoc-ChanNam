@@ -160,6 +160,8 @@ export default function OrderConfirmationView({ order }) {
                           <SafeImage
                             src={item.image || '/images/no-image.png'}
                             alt={item.productName}
+                            width={48}
+                            height={48}
                             className="w-12 h-12 object-cover rounded"
                           />
                           <span>{item.productName}</span>

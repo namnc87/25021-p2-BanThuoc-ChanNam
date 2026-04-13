@@ -122,6 +122,8 @@ export default async function OrderDetailPage({ params }) {
                         <SafeImage
                           src={itemImage}
                           alt={item.productName || item.name || 'Sản phẩm'}
+                          width={48}
+                          height={48}
                           className="w-12 h-12 object-cover rounded"
                         />
                         <span>{item.productName || item.name || 'Không rõ tên'}</span>
