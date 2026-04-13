@@ -108,10 +108,10 @@ export async function deleteAddressAction(addressId) {
       },
     });
 
-    return res.ok;
+    return res.ok ? { success: true } : { success: false, message: 'Không thể xóa địa chỉ' };
   } catch (error) {
     console.error('Delete address failed:', error);
-    return false;
+    return { success: false, message: 'Lỗi kết nối server' };
   }
 }
 
@@ -119,7 +119,7 @@ export async function deleteAddressAction(addressId) {
 export async function setDefaultAddressAction(addressId) {
   try {
     const cookie = await getCookieHeader();
-    
+
     // Check if user is authenticated first
     const authRes = await fetch(`${API_URL}/auth/me`, {
       headers: {
@@ -129,13 +129,13 @@ export async function setDefaultAddressAction(addressId) {
     });
 
     if (!authRes.ok) {
-      return { 
-        success: false, 
+      return {
+        success: false,
         message: 'Cần đăng nhập để thực hiện thao tác này',
-        requiresAuth: true 
+        requiresAuth: true
       };
     }
-    
+
     const res = await fetch(`${API_URL}/addresses/${addressId}`, {
       method: 'PUT',
       headers: {
@@ -145,10 +145,10 @@ export async function setDefaultAddressAction(addressId) {
       body: JSON.stringify({ isDefault: true }),
     });
 
-    return res.ok;
+    return res.ok ? { success: true } : { success: false, message: 'Không thể cập nhật địa chỉ mặc định' };
   } catch (error) {
     console.error('Set default address failed:', error);
-    return false;
+    return { success: false, message: 'Lỗi kết nối server' };
   }
 }
 

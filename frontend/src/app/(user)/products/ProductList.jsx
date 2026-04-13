@@ -54,14 +54,14 @@ export default function ProductList({
               <select
                 value={currentFilters.sort}
                 onChange={(e) => {
-                  const params = new URLSearchParams(window.location.search);
+                  const params = new URLSearchParams(searchParams.toString());
                   if (e.target.value === 'default') {
                     params.delete('sort');
                   } else {
                     params.set('sort', e.target.value);
                   }
                   params.set('page', '1');
-                  window.location.href = `/products?${params.toString()}`;
+                  router.push(`/products?${params.toString()}`);
                 }}
                 className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               >

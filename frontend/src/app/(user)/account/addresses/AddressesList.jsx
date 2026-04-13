@@ -42,7 +42,9 @@ export default function AddressesList({ addresses: initialAddresses }) {
       const result = await addAddressAction(formFormData);
 
       if (result.success) {
-        window.location.reload();
+        router.refresh();
+        setShowAddForm(false);
+        setFormData({ recipientName: '', recipientPhone: '', fullAddress: '', isDefault: false });
       } else if (result.requiresAuth) {
         alert('⚠️ ' + result.message);
         router.push('/login?redirect=/account/addresses');
@@ -52,42 +54,33 @@ export default function AddressesList({ addresses: initialAddresses }) {
     });
   };
 
-  const handleSetDefault = (addressId) => {
-    startTransition(async () => {
-      const success = await setDefaultAddressAction(addressId);
-      if (success) {
-        window.location.reload();
-      } else {
-        // Check if it's an auth error by trying again
-        const result = await setDefaultAddressAction(addressId);
-        if (result?.requiresAuth) {
-          alert('⚠️ ' + result.message);
-          router.push('/login?redirect=/account/addresses');
-        } else {
-          alert('Lỗi khi cập nhật địa chỉ mặc định');
-        }
-      }
-    });
+  const handleSetDefault = async (addressId) => {
+    const result = await setDefaultAddressAction(addressId);
+    if (result.success) {
+      router.refresh();
+    } else if (result.requiresAuth) {
+      alert('⚠️ ' + result.message);
+      router.push('/login?redirect=/account/addresses');
+    } else {
+      alert(result.message || 'Lỗi khi cập nhật địa chỉ mặc định');
+    }
   };
 
-  const handleDelete = (addressId) => {
+  const handleDelete = async (addressId) => {
     if (!confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) return;
 
-    startTransition(async () => {
-      const success = await deleteAddressAction(addressId);
-      if (success) {
-        window.location.reload();
+    const result = await deleteAddressAction(addressId);
+    if (result) {
+      router.refresh();
+    } else {
+      const checkResult = await deleteAddressAction(addressId);
+      if (checkResult?.requiresAuth) {
+        alert('⚠️ ' + checkResult.message);
+        router.push('/login?redirect=/account/addresses');
       } else {
-        // Check if it's an auth error
-        const result = await deleteAddressAction(addressId);
-        if (result?.requiresAuth) {
-          alert('⚠️ ' + result.message);
-          router.push('/login?redirect=/account/addresses');
-        } else {
-          alert('Không thể xóa địa chỉ');
-        }
+        alert('Không thể xóa địa chỉ');
       }
-    });
+    }
   };
 
   return (
