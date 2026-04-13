@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import AddToCartButton from './AddToCartButton';
+import { Minus, Plus } from 'lucide-react';
 
 export default function ProductDetail({ product }) {
   const [imageError, setImageError] = useState(false);
@@ -189,7 +190,7 @@ export default function ProductDetail({ product }) {
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="w-10 h-10 rounded-lg border flex items-center justify-center hover:bg-gray-100"
                 >
-                  -
+                  <Minus className="w-4 h-4" />
                 </button>
                 <input
                   type="number"
@@ -203,7 +204,7 @@ export default function ProductDetail({ product }) {
                   onClick={() => setQuantity(quantity + 1)}
                   className="w-10 h-10 rounded-lg border flex items-center justify-center hover:bg-gray-100"
                 >
-                  +
+                  <Plus className="w-4 h-4" />
                 </button>
               </div>
             </div>

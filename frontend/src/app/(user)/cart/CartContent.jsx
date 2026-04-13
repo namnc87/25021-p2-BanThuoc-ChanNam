@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { updateCartItemAction, removeCartItemAction } from '@/actions/cart';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
+import { Minus, Plus } from 'lucide-react';
 
 export default function CartContent({
   cartItems,
@@ -98,7 +99,7 @@ export default function CartContent({
                     disabled={loadingId === item.id}
                     className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
                   >
-                    -
+                    <Minus className="w-4 h-4" />
                   </button>
                   <span className="w-10 text-center">{item.quantity}</span>
                   <button
@@ -106,7 +107,7 @@ export default function CartContent({
                     disabled={loadingId === item.id}
                     className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
                   >
-                    +
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="text-right">
