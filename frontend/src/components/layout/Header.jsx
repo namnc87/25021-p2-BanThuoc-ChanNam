@@ -1,10 +1,14 @@
 // Header - Server Component
 import Link from 'next/link';
 import { checkAuth, logoutAction } from '@/actions/auth';
-import { getCartCount } from '@/actions/cart';
+import { getCartSummary } from '@/actions/cart';
 import HeaderClient from './HeaderClient';
 import { headers } from 'next/headers';
 import { ShoppingCart } from 'lucide-react';
+
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+}
 
 export default async function Header() {
   const headersList = await headers();
@@ -23,7 +27,7 @@ export default async function Header() {
     return null;
   }
 
-  const cartCount = await getCartCount();
+  const { count: cartCount, total: cartTotal } = await getCartSummary();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -91,15 +95,18 @@ export default async function Header() {
 
             {/* Cart - Only show for non-admin users */}
             {!isAdmin && (
-              <Link href="/cart" className="relative hover:text-blue-600">
+              <Link href="/cart" className="relative flex items-center gap-2 hover:text-blue-600 transition-colors">
                 <div className="relative">
                   <ShoppingCart className="w-6 h-6" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}
                 </div>
+                {cartTotal > 0 && (
+                  <span className="text-sm font-bold text-green-600 whitespace-nowrap">{formatCurrency(cartTotal)}</span>
+                )}
               </Link>
             )}
           </nav>

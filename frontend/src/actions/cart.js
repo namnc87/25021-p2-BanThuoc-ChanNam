@@ -46,6 +46,30 @@ export async function getCartCount() {
   }
 }
 
+// Get cart total price
+export async function getCartTotal() {
+  try {
+    const items = await getCartItems();
+    return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  } catch {
+    return 0;
+  }
+}
+
+// Get cart summary (count + total)
+export async function getCartSummary() {
+  try {
+    const items = await getCartItems();
+    const count = items.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const shippingCost = subtotal >= 500000 ? 0 : 25000;
+    const total = subtotal + shippingCost;
+    return { count, total, shippingCost };
+  } catch {
+    return { count: 0, total: 0, shippingCost: 0 };
+  }
+}
+
 // Add to cart
 export async function addToCartAction(productId, unit, quantity, price) {
   try {
