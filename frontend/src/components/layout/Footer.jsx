@@ -1,4 +1,6 @@
 // Footer - Server Component (no client interaction needed)
+import Link from 'next/link';
+
 export default function Footer() {
   return (
     <footer className="bg-gray-800 text-white pt-12 pb-6">
@@ -16,10 +18,10 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Liên kết nhanh</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-blue-400 transition-colors">Về chúng tôi</a></li>
-              <li><a href="#" className="hover:text-blue-400 transition-colors">Chính sách bảo mật</a></li>
-              <li><a href="#" className="hover:text-blue-400 transition-colors">Điều khoản sử dụng</a></li>
-              <li><a href="#" className="hover:text-blue-400 transition-colors">Hướng dẫn mua hàng</a></li>
+              <li><Link href="#" className="hover:text-blue-400 transition-colors">Về chúng tôi</Link></li>
+              <li><Link href="#" className="hover:text-blue-400 transition-colors">Chính sách bảo mật</Link></li>
+              <li><Link href="#" className="hover:text-blue-400 transition-colors">Điều khoản sử dụng</Link></li>
+              <li><Link href="#" className="hover:text-blue-400 transition-colors">Hướng dẫn mua hàng</Link></li>
             </ul>
           </div>
 
