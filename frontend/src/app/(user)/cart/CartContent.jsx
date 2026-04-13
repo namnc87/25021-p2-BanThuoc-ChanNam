@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { updateCartItemAction, removeCartItemAction } from '@/actions/cart';
 
@@ -59,11 +60,12 @@ export default function CartContent({
           <div className="bg-white rounded-lg shadow p-4">
             {items.map((item) => (
               <div key={item.id} className="flex items-center gap-4 py-4 border-b border-gray-200 last:border-0">
-                <img
+                <Image
                   src={item.productImage || '/images/no-image.png'}
                   alt={item.productName}
-                  className="w-16 h-16 object-cover rounded"
-                  onError={(e) => e.target.src = '/images/no-image.png'}
+                  width={64}
+                  height={64}
+                  className="rounded"
                 />
                 <div className="flex-1">
                   <h3 className="font-semibold">{item.productName}</h3>

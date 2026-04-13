@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProductFilters from './ProductFilters';
 
@@ -93,11 +94,12 @@ export default function ProductList({
                   return (
                     <div key={product.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="w-full h-48 flex items-center justify-center mb-3">
-                        <img
+                        <Image
                           src={product.image || '/images/no-image.png'}
                           alt={product.name}
+                          width={200}
+                          height={200}
                           className="max-w-full max-h-full object-contain"
-                          onError={(e) => e.target.src = '/images/no-image.png'}
                         />
                       </div>
                       <h3 className="font-semibold text-lg mb-2 line-clamp-1">{product.name}</h3>

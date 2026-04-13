@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import AddToCartButton from './AddToCartButton';
 
@@ -38,11 +39,12 @@ export default function ProductDetail({ product }) {
         <div className="lg:w-1/2">
           <div className="bg-white rounded-lg shadow p-4">
             {/* Main Image - Use object-contain to show full product */}
-            <div className="w-full h-96 flex items-center justify-center mb-4">
-              <img
+            <div className="w-full h-96 flex items-center justify-center mb-4 relative">
+              <Image
                 src={displayImage}
                 alt={product.name}
-                className="max-w-full max-h-full object-contain"
+                fill
+                className="object-contain"
                 onError={() => setImageError(true)}
               />
             </div>
@@ -58,14 +60,13 @@ export default function ProductDetail({ product }) {
                       selectedImage === idx ? 'border-blue-500' : 'border-gray-300 hover:border-blue-500'
                     }`}
                   >
-                    <img
-                      src={img}
-                      alt={`${product.name} - ${idx + 1}`}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = '/images/no-image.png';
-                      }}
-                    />
+                  <Image
+                    src={img}
+                    alt={`${product.name} - ${idx + 1}`}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
+                  />
                   </button>
                 ))}
               </div>

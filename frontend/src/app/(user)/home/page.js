@@ -1,6 +1,7 @@
 // Home Page - Server Component
 import { getProducts, getCategories } from '@/actions/products';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,9 +36,11 @@ async function HomePage() {
               return (
                 <div key={product.id} className="bg-white rounded-lg shadow p-4">
                   <div className="w-full h-48 flex items-center justify-center mb-3">
-                    <img
+                    <Image
                       src={product.image || '/images/no-image.png'}
                       alt={product.name}
+                      width={200}
+                      height={200}
                       className="max-w-full max-h-full object-contain"
                     />
                   </div>
@@ -45,12 +48,12 @@ async function HomePage() {
                   <p className="text-green-600 font-bold mt-2">
                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)}
                   </p>
-                  <a
+                  <Link
                     href={`/products/${product.id}`}
                     className="mt-3 inline-block bg-blue-600 text-white px-3 py-1 rounded text-sm"
                   >
                     Xem chi tiết
-                  </a>
+                  </Link>
                 </div>
               );
             })}
@@ -75,12 +78,12 @@ async function HomePage() {
                   </div>
                   <h3 className="font-bold text-lg">{category.name}</h3>
                   <p className="text-gray-600 text-sm mt-2">{category.description}</p>
-                  <a
+                  <Link
                     href={`/products?category=${encodeURIComponent(category.name)}`}
                     className="mt-4 inline-block text-blue-600 hover:underline"
                   >
                     Xem tất cả →
-                  </a>
+                  </Link>
                 </div>
               );
             })}

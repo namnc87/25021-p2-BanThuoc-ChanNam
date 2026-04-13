@@ -3,6 +3,7 @@
 
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createOrderAction } from '@/actions/orders';
 
@@ -221,11 +222,12 @@ export default function CheckoutForm({
             <div className="space-y-4 max-h-96 overflow-y-auto">
               {cartItems.map((item) => (
                 <div key={item.id} className="flex items-center gap-3 py-3 border-b border-gray-200">
-                  <img
+                  <Image
                     src={item.productImage || '/images/no-image.png'}
                     alt={item.productName}
-                    className="w-16 h-16 object-cover rounded"
-                    onError={(e) => e.target.src = '/images/no-image.png'}
+                    width={64}
+                    height={64}
+                    className="rounded"
                   />
                   <div className="flex-1">
                     <h3 className="font-medium">{item.productName}</h3>
