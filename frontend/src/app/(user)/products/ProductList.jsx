@@ -30,27 +30,28 @@ export default function ProductList({
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Danh sách sản phẩm</h1>
+    <div className="container mx-auto px-4 py-10">
+      <h1 className="text-3xl font-extrabold mb-2 text-slate-800">Danh sách sản phẩm</h1>
+      <p className="text-slate-500 mb-8">Tìm kiếm và chọn sản phẩm phù hợp với nhu cầu của bạn</p>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-7">
         {/* Sidebar Filters - Server Component with form navigation */}
         <ProductFilters categories={categories} currentFilters={currentFilters} />
 
         {/* Main Content */}
         <div className="lg:w-3/4">
           {/* Header với số lượng và sắp xếp */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
             <div>
-              <p className="text-gray-600">
-                Tìm thấy <span className="font-bold text-blue-600">{products.length}</span> sản phẩm
+              <p className="text-slate-600 text-sm">
+                Tìm thấy <span className="font-bold text-sky-600">{products.length}</span> sản phẩm
                 {currentFilters.search && (
-                  <span> cho &quot;<span className="font-semibold">{currentFilters.search}</span>&quot;</span>
+                  <span> cho &quot;<span className="font-semibold text-slate-800">{currentFilters.search}</span>&quot;</span>
                 )}
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-gray-600">Sắp xếp:</span>
+              <span className="text-slate-500 text-sm">Sắp xếp:</span>
               <select
                 value={currentFilters.sort}
                 onChange={(e) => {
@@ -63,7 +64,7 @@ export default function ProductList({
                   params.set('page', '1');
                   router.push(`/products?${params.toString()}`);
                 }}
-                className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent bg-slate-50 text-sm appearance-none"
               >
                 <option value="default">Mặc định</option>
                 <option value="name-asc">Tên A-Z</option>
@@ -76,11 +77,11 @@ export default function ProductList({
 
           {/* Danh sách sản phẩm */}
           {paginatedProducts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">Không tìm thấy sản phẩm nào.</p>
+            <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
+              <p className="text-slate-400 text-lg mb-4">Không tìm thấy sản phẩm nào.</p>
               <Link
                 href="/products"
-                className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="inline-block bg-gradient-to-r from-sky-500 to-sky-600 text-white px-6 py-2.5 rounded-xl hover:from-sky-600 hover:to-sky-700 font-medium text-sm"
               >
                 Xóa bộ lọc
               </Link>
@@ -92,8 +93,8 @@ export default function ProductList({
                   const minPrice = Math.min(...(product.units?.map(u => u.price) || [0]));
 
                   return (
-                    <div key={product.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="w-full h-48 flex items-center justify-center mb-3">
+                    <div key={product.id} className="bg-white border border-slate-100 rounded-2xl p-5 card-hover shadow-sm">
+                      <div className="w-full h-48 flex items-center justify-center mb-4 bg-slate-50 rounded-xl overflow-hidden">
                         <Image
                           src={product.image || '/images/no-image.png'}
                           alt={product.name}
@@ -103,29 +104,29 @@ export default function ProductList({
                           style={{ width: 'auto', height: 'auto' }}
                         />
                       </div>
-                      <h3 className="font-semibold text-lg mb-2 line-clamp-1">{product.name}</h3>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                      <h3 className="font-semibold text-lg mb-2 line-clamp-1 text-slate-800">{product.name}</h3>
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="px-3 py-1 bg-sky-50 text-sky-700 text-xs rounded-full font-medium border border-sky-100">
                           {product.category}
                         </span>
                         {product.type === 'kedon' && (
-                          <span className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded">
+                          <span className="px-3 py-1 bg-red-50 text-red-700 text-xs rounded-full font-medium border border-red-100">
                             Kê đơn
                           </span>
                         )}
                       </div>
-                      <p className="text-green-600 font-bold text-lg mb-3">
+                      <p className="text-emerald-600 font-bold text-lg mb-4">
                         {new Intl.NumberFormat('vi-VN', {
                           style: 'currency',
                           currency: 'VND'
                         }).format(minPrice)}
                         {product.units?.length > 1 && (
-                          <span className="text-gray-500 text-sm ml-1">(từ)</span>
+                          <span className="text-slate-400 text-sm ml-1 font-normal">(từ)</span>
                         )}
                       </p>
                       <Link
                         href={`/products/${product.id}`}
-                        className="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+                        className="block w-full text-center bg-gradient-to-r from-sky-500 to-sky-600 text-white py-2.5 rounded-xl hover:from-sky-600 hover:to-sky-700 font-medium text-sm shadow-sm shadow-sky-100"
                       >
                         Xem chi tiết
                       </Link>
@@ -136,12 +137,12 @@ export default function ProductList({
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex justify-center mt-8">
-                  <div className="flex items-center gap-1">
+                <div className="flex justify-center mt-10">
+                  <div className="flex items-center gap-2">
                     <button
                       onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                       disabled={currentPage === 1}
-                      className={`px-3 py-2 border rounded ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'}`}
+                      className={`px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm ${currentPage === 1 ? 'opacity-50 cursor-not-allowed bg-slate-50' : 'hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 bg-white'}`}
                     >
                       ←
                     </button>
@@ -158,9 +159,9 @@ export default function ProductList({
                           <button
                             key={pageNum}
                             onClick={() => handlePageChange(pageNum)}
-                            className={`px-4 py-2 border rounded ${currentPage === pageNum
-                              ? 'bg-blue-600 text-white border-blue-600'
-                              : 'hover:bg-gray-50'}`}
+                            className={`px-4 py-2.5 border rounded-xl text-sm font-medium ${currentPage === pageNum
+                              ? 'bg-gradient-to-r from-sky-500 to-sky-600 text-white border-sky-500 shadow-md shadow-sky-100'
+                              : 'border-slate-200 hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 bg-white'}`}
                           >
                             {pageNum}
                           </button>
@@ -169,7 +170,7 @@ export default function ProductList({
                         pageNum === currentPage - 2 ||
                         pageNum === currentPage + 2
                       ) {
-                        return <span key={pageNum} className="px-2">...</span>;
+                        return <span key={pageNum} className="px-2 text-slate-400">...</span>;
                       }
                       return null;
                     })}
@@ -177,7 +178,7 @@ export default function ProductList({
                     <button
                       onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                       disabled={currentPage === totalPages}
-                      className={`px-3 py-2 border rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'}`}
+                      className={`px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed bg-slate-50' : 'hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 bg-white'}`}
                     >
                       →
                     </button>

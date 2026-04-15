@@ -27,20 +27,29 @@ export default function ProductDetail({ product }) {
   const currentPrice = selectedUnit?.price || 0;
   const totalPrice = currentPrice * quantity;
 
+  const tabs = [
+    { id: 'category', label: 'Danh mục' },
+    { id: 'manufacturer', label: 'Nhà sản xuất' },
+    { id: 'ingredients', label: 'Thành phần' },
+    { id: 'usage', label: 'Công dụng' },
+  ];
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <nav className="text-sm mb-6">
-        <Link href="/" className="text-blue-600 hover:underline">Trang chủ</Link> {'>'}
-        <Link href="/products" className="text-blue-600 hover:underline ml-2">Sản phẩm</Link> {'>'}
-        <span className="ml-2 text-gray-700">{product.name}</span>
+    <div className="container mx-auto px-4 py-10">
+      <nav className="text-sm mb-8 flex items-center gap-2 text-slate-500">
+        <Link href="/" className="text-sky-600 hover:text-sky-700 font-medium">Trang chủ</Link>
+        <span className="text-slate-300">›</span>
+        <Link href="/products" className="text-sky-600 hover:text-sky-700 font-medium">Sản phẩm</Link>
+        <span className="text-slate-300">›</span>
+        <span className="text-slate-700 font-medium">{product.name}</span>
       </nav>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-10">
         {/* Hình ảnh */}
         <div className="lg:w-1/2">
-          <div className="bg-white rounded-lg shadow p-4">
+          <div className="bg-white rounded-2xl shadow-md p-6 border border-slate-100">
             {/* Main Image - Use object-contain to show full product */}
-            <div className="w-full h-96 flex items-center justify-center mb-4 relative">
+            <div className="w-full h-96 flex items-center justify-center mb-5 relative bg-slate-50 rounded-2xl overflow-hidden">
               <Image
                 src={displayImage}
                 alt={product.name}
@@ -54,13 +63,13 @@ export default function ProductDetail({ product }) {
 
             {/* Image Thumbnails - Only show if there are additional images */}
             {additionalImages.length > 0 && (
-              <div className="flex gap-2 overflow-x-auto">
+              <div className="flex gap-3 overflow-x-auto">
                 {additionalImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`flex-shrink-0 w-20 h-20 border-2 rounded-lg overflow-hidden ${
-                      selectedImage === idx ? 'border-blue-500' : 'border-gray-300 hover:border-blue-500'
+                    className={`flex-shrink-0 w-20 h-20 border-2 rounded-xl overflow-hidden ${
+                      selectedImage === idx ? 'border-sky-500 shadow-md shadow-sky-100' : 'border-slate-200 hover:border-sky-400'
                     }`}
                   >
                   <Image
@@ -81,97 +90,75 @@ export default function ProductDetail({ product }) {
         {/* Thông tin */}
         <div className="lg:w-1/2">
           {/* Tab Navigation */}
-          <div className="mb-6">
-            <div className="flex border-b mb-4 gap-2">
-              <button
-                className={`px-4 py-2 font-medium text-sm border-b-2 ${
-                  activeTab === 'category' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-600 hover:text-blue-600'
-                }`}
-                onClick={() => setActiveTab('category')}
-                data-tab="category"
-              >
-                Danh mục
-              </button>
-              <button
-                className={`px-4 py-2 font-medium text-sm border-b-2 ${
-                  activeTab === 'manufacturer' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-600 hover:text-blue-600'
-                }`}
-                onClick={() => setActiveTab('manufacturer')}
-                data-tab="manufacturer"
-              >
-                Nhà sản xuất
-              </button>
-              <button
-                className={`px-4 py-2 font-medium text-sm border-b-2 ${
-                  activeTab === 'ingredients' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-600 hover:text-blue-600'
-                }`}
-                onClick={() => setActiveTab('ingredients')}
-                data-tab="ingredients"
-              >
-                Thành phần
-              </button>
-              <button
-                className={`px-4 py-2 font-medium text-sm border-b-2 ${
-                  activeTab === 'usage' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-600 hover:text-blue-600'
-                }`}
-                onClick={() => setActiveTab('usage')}
-                data-tab="usage"
-              >
-                Công dụng
-              </button>
+          <div className="mb-7">
+            <div className="flex mb-5 gap-2 bg-slate-100 p-1 rounded-2xl">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  className={`px-4 py-2.5 font-medium text-sm rounded-xl flex-1 ${
+                    activeTab === tab.id
+                      ? 'bg-white text-sky-600 shadow-sm'
+                      : 'text-slate-500 hover:text-slate-700'
+                  }`}
+                  onClick={() => setActiveTab(tab.id)}
+                  data-tab={tab.id}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
 
-            <div className="min-h-[100px]">
-              <div id="tab-category" className={activeTab === 'category' ? 'text-gray-700' : 'hidden'}>
-                <p><span className="font-medium">Danh mục:</span> {product.category || 'Không xác định'}</p>
+            <div className="min-h-[100px] bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+              <div id="tab-category" className={activeTab === 'category' ? 'text-slate-700' : 'hidden'}>
+                <p><span className="font-medium text-slate-800">Danh mục:</span> {product.category || 'Không xác định'}</p>
                 {product.type && (
-                  <p className="mt-2">
-                    <span className="font-medium">Loại:</span>{' '}
-                    <span className={`px-2 py-1 rounded text-sm ${
+                  <p className="mt-3">
+                    <span className="font-medium text-slate-800">Loại:</span>{' '}
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                       product.type === 'kedon'
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-green-100 text-green-800'
+                        ? 'bg-red-50 text-red-700 border border-red-100'
+                        : 'bg-emerald-50 text-emerald-700 border border-emerald-100'
                     }`}>
                       {product.type === 'kedon' ? 'Thuốc kê đơn' : 'Thuốc không kê đơn'}
                     </span>
                   </p>
                 )}
               </div>
-              <div id="tab-manufacturer" className={activeTab === 'manufacturer' ? 'text-gray-700' : 'hidden'}>
-                <p><span className="font-medium">Nhà sản xuất:</span> {product.manufacturer || 'Thông tin chưa được cung cấp.'}</p>
+              <div id="tab-manufacturer" className={activeTab === 'manufacturer' ? 'text-slate-700' : 'hidden'}>
+                <p><span className="font-medium text-slate-800">Nhà sản xuất:</span> {product.manufacturer || 'Thông tin chưa được cung cấp.'}</p>
               </div>
-              <div id="tab-ingredients" className={activeTab === 'ingredients' ? 'text-gray-700' : 'hidden'}>
-                <p><span className="font-medium">Thành phần:</span> {product.ingredients || 'Thông tin thành phần chưa được cung cấp.'}</p>
+              <div id="tab-ingredients" className={activeTab === 'ingredients' ? 'text-slate-700' : 'hidden'}>
+                <p><span className="font-medium text-slate-800">Thành phần:</span> {product.ingredients || 'Thông tin thành phần chưa được cung cấp.'}</p>
               </div>
-              <div id="tab-usage" className={activeTab === 'usage' ? 'text-gray-700' : 'hidden'}>
-                <p><span className="font-medium">Công dụng:</span> {product.usage || 'Thông tin công dụng chưa được cung cấp.'}</p>
+              <div id="tab-usage" className={activeTab === 'usage' ? 'text-slate-700' : 'hidden'}>
+                <p><span className="font-medium text-slate-800">Công dụng:</span> {product.usage || 'Thông tin công dụng chưa được cung cấp.'}</p>
                 {product.description && (
-                  <p className="mt-2"><span className="font-medium">Mô tả:</span> {product.description}</p>
+                  <p className="mt-3"><span className="font-medium text-slate-800">Mô tả:</span> {product.description}</p>
                 )}
               </div>
             </div>
           </div>
 
-          <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+          <h1 className="text-3xl font-extrabold mb-4 text-slate-800">{product.name}</h1>
 
-          <div className="mb-4">
-            <span className="text-green-600 font-bold text-2xl">
+          <div className="mb-5 bg-gradient-to-r from-emerald-50 to-teal-50 p-4 rounded-2xl border border-emerald-100">
+            <span className="text-emerald-600 font-extrabold text-3xl">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}
             </span>
           </div>
 
           {/* Chọn đơn vị và Số lượng */}
-          <div className="flex justify-between items-start mb-6">
+          <div className="flex justify-between items-start mb-7 gap-6">
             {/* Chọn đơn vị */}
-            <div>
-              <label className="block mb-2 font-medium">Chọn đơn vị:</label>
+            <div className="flex-1">
+              <label className="block mb-2 font-medium text-sm text-slate-700">Chọn đơn vị:</label>
               <select
                 value={selectedUnitIndex}
                 onChange={(e) => {
                   setSelectedUnitIndex(parseInt(e.target.value));
                   setQuantity(1); // Reset quantity when changing unit
                 }}
-                className="border rounded px-3 py-2 w-64"
+                className="border border-slate-200 rounded-xl px-4 py-3 w-full bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm appearance-none"
               >
                 {product.units?.map((unit, idx) => (
                   <option key={idx} value={idx}>
@@ -183,12 +170,12 @@ export default function ProductDetail({ product }) {
 
             {/* Số lượng */}
             <div>
-              <label className="block mb-2 font-medium">Số lượng:</label>
+              <label className="block mb-2 font-medium text-sm text-slate-700">Số lượng:</label>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 rounded-lg border flex items-center justify-center hover:bg-gray-100"
+                  className="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 bg-white"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
@@ -197,12 +184,12 @@ export default function ProductDetail({ product }) {
                   value={quantity}
                   onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                   min="1"
-                  className="w-20 text-center border rounded-lg py-2"
+                  className="w-20 text-center border border-slate-200 rounded-xl py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 text-sm font-medium"
                 />
                 <button
                   type="button"
                   onClick={() => setQuantity(quantity + 1)}
-                  className="w-10 h-10 rounded-lg border flex items-center justify-center hover:bg-gray-100"
+                  className="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 bg-white"
                 >
                   <Plus className="w-4 h-4" />
                 </button>

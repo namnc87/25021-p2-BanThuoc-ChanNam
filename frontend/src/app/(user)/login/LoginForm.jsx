@@ -24,35 +24,35 @@ export default function LoginForm({ redirectTo = '/' }) {
   }, [state, router]);
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form action={formAction} className="space-y-5">
       <input type="hidden" name="redirectTo" value={redirectTo} />
       {state?.message && !state.success && (
-        <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
+        <div className="bg-red-50 text-red-700 p-3.5 rounded-xl mb-4 text-sm font-medium border border-red-100">
           {state.message}
         </div>
       )}
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
           Email
         </label>
         <input
           type="email"
           id="email"
           name="email"
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full p-3.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent bg-slate-50 focus:bg-white text-sm"
           placeholder="email@example.com"
           required
           disabled={isPending}
         />
       </div>
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+        <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">Mật khẩu</label>
         <input
           type="password"
           id="password"
           name="password"
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full p-3.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent bg-slate-50 focus:bg-white text-sm"
           placeholder="••••••••"
           required
           disabled={isPending}
@@ -62,10 +62,10 @@ export default function LoginForm({ redirectTo = '/' }) {
       <button
         type="submit"
         disabled={isPending}
-        className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-colors ${
+        className={`w-full py-3.5 px-4 rounded-xl font-semibold text-white text-sm ${
           isPending
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-blue-600 hover:bg-blue-700'
+            ? 'bg-slate-300 cursor-not-allowed'
+            : 'bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-md shadow-sky-100 hover:shadow-lg hover:shadow-sky-200'
         }`}
       >
         {isPending ? (

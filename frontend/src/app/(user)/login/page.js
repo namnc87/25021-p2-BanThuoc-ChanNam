@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import LoginForm from './LoginForm';
-import { User } from 'lucide-react';
+import { User, CheckCircle, LogOut } from 'lucide-react';
 
 export default async function LoginPage({ searchParams }) {
   const sp = await searchParams;
@@ -44,45 +44,47 @@ export default async function LoginPage({ searchParams }) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <User className="w-8 h-8 text-blue-600" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-sky-50 to-indigo-50">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100 animate-fade-in">
+        <div className="text-center mb-7">
+          <div className="w-16 h-16 bg-gradient-to-br from-sky-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-sky-100">
+            <User className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Đăng nhập</h1>
-          <p className="text-gray-600 text-sm">Đăng nhập vào tài khoản khách hàng</p>
+          <h1 className="text-2xl font-extrabold text-slate-900">Đăng nhập</h1>
+          <p className="text-slate-500 text-sm mt-1">Đăng nhập vào tài khoản khách hàng</p>
         </div>
 
         {sp.registered && (
-          <div className="bg-green-100 text-green-700 p-3 rounded mb-4 text-sm">
+          <div className="bg-emerald-50 text-emerald-700 p-3.5 rounded-xl mb-5 text-sm font-medium border border-emerald-100 flex items-center gap-2">
+            <CheckCircle className="w-4 h-4 flex-shrink-0" />
             Đăng ký thành công! Vui lòng đăng nhập.
           </div>
         )}
 
         {sp.logout && (
-          <div className="bg-blue-100 text-blue-700 p-3 rounded mb-4 text-sm">
+          <div className="bg-sky-50 text-sky-700 p-3.5 rounded-xl mb-5 text-sm font-medium border border-sky-100 flex items-center gap-2">
+            <LogOut className="w-4 h-4 flex-shrink-0" />
             Bạn đã đăng xuất thành công.
           </div>
         )}
 
         <LoginForm redirectTo={sp.redirect || '/'} />
 
-        <div className="mt-6 text-center">
+        <div className="mt-7 text-center">
           <div className="mb-4">
-            <Link href="/register" className="text-blue-600 hover:underline text-sm">
-              Chưa có tài khoản? Đăng ký
+            <Link href="/register" className="text-sky-600 hover:text-sky-700 text-sm font-medium">
+              Chưa có tài khoản? Đăng ký →
             </Link>
           </div>
           <div>
-            <Link href="/" className="text-gray-600 hover:underline text-sm block mt-2">
+            <Link href="/" className="text-slate-400 hover:text-slate-600 text-sm block mt-2">
               ← Quay lại trang chủ
             </Link>
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <p className="text-xs text-gray-500 text-center">
+        <div className="mt-7 pt-6 border-t border-slate-100">
+          <p className="text-xs text-slate-400 text-center">
             Sử dụng email và mật khẩu đã đăng ký để đăng nhập.
           </p>
         </div>

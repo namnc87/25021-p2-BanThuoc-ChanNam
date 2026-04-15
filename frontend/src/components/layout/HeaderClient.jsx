@@ -19,19 +19,19 @@ export default function HeaderClient() {
 
   return (
     <form onSubmit={handleSearch} className="w-full md:w-1/3">
-      <div className="relative">
+      <div className="relative group">
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Tìm kiếm thuốc theo tên..."
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent focus:bg-white text-sm placeholder:text-slate-400 group-hover:border-sky-300"
         />
         <button
           type="submit"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-600"
+          className="absolute right-1.5 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-sky-600 bg-white hover:bg-sky-50 w-8 h-8 rounded-full flex items-center justify-center shadow-sm"
         >
-          <Search className="w-5 h-5" />
+          <Search className="w-4 h-4" />
         </button>
       </div>
     </form>

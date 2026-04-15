@@ -3,6 +3,7 @@
 
 import React, { useState, useTransition } from 'react';
 import { updateOrderStatusAction } from '@/actions/orders';
+import { ClipboardList, User, Truck, Settings } from 'lucide-react';
 
 export default function AdminOrdersTable({ initialOrders }) {
   const [orders, setOrders] = useState(initialOrders);
@@ -28,13 +29,13 @@ export default function AdminOrdersTable({ initialOrders }) {
 
   const getStatusColor = (status) => {
     const map = {
-      pending: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
-      processing: 'bg-blue-100 text-blue-800 border border-blue-200',
-      shipping: 'bg-purple-100 text-purple-800 border border-purple-200',
-      delivered: 'bg-green-100 text-green-800 border border-green-200',
-      cancelled: 'bg-red-100 text-red-800 border border-red-200'
+      pending: 'bg-amber-50 text-amber-700 border border-amber-200',
+      processing: 'bg-sky-50 text-sky-700 border border-sky-200',
+      shipping: 'bg-violet-50 text-violet-700 border border-violet-200',
+      delivered: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+      cancelled: 'bg-red-50 text-red-700 border border-red-200'
     };
-    return map[status] || 'bg-gray-100 text-gray-800 border border-gray-200';
+    return map[status] || 'bg-slate-50 text-slate-700 border border-slate-200';
   };
 
   const formatCurrency = (amount) => {
@@ -83,54 +84,57 @@ export default function AdminOrdersTable({ initialOrders }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow">
+    <div className="bg-white rounded-2xl shadow-md border border-slate-100">
       {message && (
-        <div className={`p-3 rounded mx-6 mt-4 ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+        <div className={`p-3.5 rounded-xl mx-6 mt-5 text-sm font-medium ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
           {message.text}
         </div>
       )}
 
       {/* Header */}
-      <div className="border-b">
-        <div className="px-6 py-4">
-          <h2 className="text-xl font-bold text-gray-800">Danh sách đơn hàng</h2>
-          <p className="text-gray-600 mt-1">Quản lý và cập nhật trạng thái đơn hàng</p>
+      <div className="border-b border-slate-100">
+        <div className="px-7 py-5">
+          <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-2">
+            <ClipboardList className="w-6 h-6 text-sky-500" />
+            Danh sách đơn hàng
+          </h2>
+          <p className="text-slate-500 mt-1 text-sm">Quản lý và cập nhật trạng thái đơn hàng</p>
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-7">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-            <div className="text-blue-600 font-bold text-2xl">{filteredOrders.length}</div>
-            <div className="text-blue-800 font-medium">Tổng đơn hàng</div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-7">
+          <div className="bg-gradient-to-br from-sky-50 to-blue-50 p-5 rounded-2xl border border-sky-100">
+            <div className="text-sky-600 font-extrabold text-2xl">{filteredOrders.length}</div>
+            <div className="text-sky-800 font-medium text-sm mt-1">Tổng đơn hàng</div>
           </div>
-          <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-            <div className="text-yellow-600 font-bold text-2xl">
+          <div className="bg-gradient-to-br from-amber-50 to-yellow-50 p-5 rounded-2xl border border-amber-100">
+            <div className="text-amber-600 font-extrabold text-2xl">
               {filteredOrders.filter(o => o.status === 'pending').length}
             </div>
-            <div className="text-yellow-800 font-medium">Chờ xác nhận</div>
+            <div className="text-amber-800 font-medium text-sm mt-1">Chờ xác nhận</div>
           </div>
-          <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
-            <div className="text-purple-600 font-bold text-2xl">
+          <div className="bg-gradient-to-br from-violet-50 to-purple-50 p-5 rounded-2xl border border-violet-100">
+            <div className="text-violet-600 font-extrabold text-2xl">
               {filteredOrders.filter(o => o.status === 'shipping').length}
             </div>
-            <div className="text-purple-800 font-medium">Đang giao</div>
+            <div className="text-violet-800 font-medium text-sm mt-1">Đang giao</div>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-            <div className="text-green-600 font-bold text-2xl">
+          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-5 rounded-2xl border border-emerald-100">
+            <div className="text-emerald-600 font-extrabold text-2xl">
               {filteredOrders.filter(o => o.status === 'delivered').length}
             </div>
-            <div className="text-green-800 font-medium">Đã giao</div>
+            <div className="text-emerald-800 font-medium text-sm mt-1">Đã giao</div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="mb-7 grid grid-cols-1 md:grid-cols-4 gap-4">
           <input
             type="text"
             placeholder="Tìm kiếm theo mã đơn, tên, SĐT..."
-            className="p-3 border border-gray-300 rounded-lg"
+            className="p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -138,7 +142,7 @@ export default function AdminOrdersTable({ initialOrders }) {
             }}
           />
           <select
-            className="p-3 border border-gray-300 rounded-lg"
+            className="p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm appearance-none"
             value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
@@ -153,7 +157,7 @@ export default function AdminOrdersTable({ initialOrders }) {
             <option value="cancelled">Đã hủy</option>
           </select>
           <select
-            className="p-3 border border-gray-300 rounded-lg"
+            className="p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm appearance-none"
             value={paymentFilter}
             onChange={(e) => {
               setPaymentFilter(e.target.value);
@@ -171,55 +175,55 @@ export default function AdminOrdersTable({ initialOrders }) {
               setPaymentFilter('all');
               setCurrentPage(1);
             }}
-            className="p-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            className="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 font-medium text-sm border border-slate-200"
           >
             Xóa bộ lọc
           </button>
         </div>
 
         {/* Orders Table */}
-        <div className="overflow-x-auto border rounded-lg">
+        <div className="overflow-x-auto border border-slate-100 rounded-2xl">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-slate-50">
               <tr>
-                <th className="px-4 py-3 text-left">Mã đơn</th>
-                <th className="px-4 py-3 text-left">Khách hàng</th>
-                <th className="px-4 py-3 text-left">SĐT</th>
-                <th className="px-4 py-3 text-left">Tổng tiền</th>
-                <th className="px-4 py-3 text-left">PT thanh toán</th>
-                <th className="px-4 py-3 text-left">Trạng thái</th>
-                <th className="px-4 py-3 text-left">Ngày đặt</th>
-                <th className="px-4 py-3 text-center">Thao tác</th>
+                <th className="px-5 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Mã đơn</th>
+                <th className="px-5 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Khách hàng</th>
+                <th className="px-5 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">SĐT</th>
+                <th className="px-5 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Tổng tiền</th>
+                <th className="px-5 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">PT thanh toán</th>
+                <th className="px-5 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Trạng thái</th>
+                <th className="px-5 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ngày đặt</th>
+                <th className="px-5 py-4 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-slate-50">
               {paginatedOrders.map((order) => (
                 <React.Fragment key={order.id}>
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-4 font-medium text-blue-600">#{order.id}</td>
-                    <td className="px-4 py-4">{order.recipientName || 'Không có'}</td>
-                    <td className="px-4 py-4">{order.phone || 'Không có'}</td>
-                    <td className="px-4 py-4 text-green-600 font-medium">{formatCurrency(order.totalPrice)}</td>
-                    <td className="px-4 py-4">
+                  <tr className="hover:bg-sky-50/30">
+                    <td className="px-5 py-4 font-semibold text-sky-600 text-sm">#{order.id}</td>
+                    <td className="px-5 py-4 text-sm text-slate-700">{order.recipientName || 'Không có'}</td>
+                    <td className="px-5 py-4 text-sm text-slate-500">{order.phone || 'Không có'}</td>
+                    <td className="px-5 py-4 text-emerald-600 font-semibold text-sm">{formatCurrency(order.totalPrice)}</td>
+                    <td className="px-5 py-4">
                       {order.paymentMethod === 'cod' ? (
-                        <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-sm">COD</span>
+                        <span className="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-semibold border border-amber-200">COD</span>
                       ) : (
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">Chuyển khoản</span>
+                        <span className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-semibold border border-emerald-200">CK</span>
                       )}
                     </td>
-                    <td className="px-4 py-4">
-                      <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${getStatusColor(order.status || 'pending')}`}>
+                    <td className="px-5 py-4">
+                      <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${getStatusColor(order.status || 'pending')}`}>
                         {getStatusText(order.status || 'pending')}
                       </span>
                     </td>
-                    <td className="px-4 py-4">{formatDate(order.createdAt)}</td>
-                    <td className="px-4 py-4 text-center">
+                    <td className="px-5 py-4 text-sm text-slate-500">{formatDate(order.createdAt)}</td>
+                    <td className="px-5 py-4 text-center">
                       <button
                         onClick={() => setExpandedOrderId(expandedOrderId === order.id ? null : order.id)}
-                        className={`px-4 py-1.5 rounded text-sm font-medium ${
+                        className={`px-4 py-2 rounded-xl text-xs font-semibold ${
                           expandedOrderId === order.id
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-blue-100 text-blue-600'
+                            ? 'bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-sm'
+                            : 'bg-sky-50 text-sky-600 border border-sky-200 hover:bg-sky-100'
                         }`}
                       >
                         {expandedOrderId === order.id ? 'Đóng' : 'Chi tiết'}
@@ -227,31 +231,40 @@ export default function AdminOrdersTable({ initialOrders }) {
                     </td>
                   </tr>
                   {expandedOrderId === order.id && (
-                    <tr className="bg-gray-50">
-                      <td colSpan="8" className="p-6">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                          <div className="bg-white p-4 rounded-lg border">
-                            <h4 className="font-bold mb-3">Thông tin khách hàng</h4>
-                            <div className="space-y-2">
-                              <p><span className="text-gray-600">Họ tên:</span> {order.recipientName}</p>
-                              <p><span className="text-gray-600">SĐT:</span> {order.phone}</p>
-                              <p><span className="text-gray-600">Email:</span> {order.user?.email}</p>
+                    <tr className="bg-slate-50/50">
+                      <td colSpan="8" className="p-7">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                          <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                            <h4 className="font-bold mb-3 text-slate-800 text-sm flex items-center gap-2">
+                              <User className="w-4 h-4 text-sky-500" />
+                              Thông tin khách hàng
+                            </h4>
+                            <div className="space-y-2 text-sm">
+                              <p><span className="text-slate-500">Họ tên:</span> <span className="font-medium text-slate-800">{order.recipientName}</span></p>
+                              <p><span className="text-slate-500">SĐT:</span> <span className="font-medium text-slate-800">{order.phone}</span></p>
+                              <p><span className="text-slate-500">Email:</span> <span className="font-medium text-slate-800">{order.user?.email}</span></p>
                             </div>
                           </div>
-                          <div className="bg-white p-4 rounded-lg border">
-                            <h4 className="font-bold mb-3">Thông tin giao hàng</h4>
-                            <div className="space-y-2">
-                              <p><span className="text-gray-600">Địa chỉ:</span> {order.address}</p>
-                              <p><span className="text-gray-600">Ghi chú:</span> {order.note || 'Không có'}</p>
+                          <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                            <h4 className="font-bold mb-3 text-slate-800 text-sm flex items-center gap-2">
+                              <Truck className="w-4 h-4 text-sky-500" />
+                              Thông tin giao hàng
+                            </h4>
+                            <div className="space-y-2 text-sm">
+                              <p><span className="text-slate-500">Địa chỉ:</span> <span className="font-medium text-slate-800">{order.address}</span></p>
+                              <p><span className="text-slate-500">Ghi chú:</span> <span className="font-medium text-slate-800">{order.note || 'Không có'}</span></p>
                             </div>
                           </div>
-                          <div className="bg-white p-4 rounded-lg border">
-                            <h4 className="font-bold mb-3">Cập nhật trạng thái</h4>
+                          <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                            <h4 className="font-bold mb-3 text-slate-800 text-sm flex items-center gap-2">
+                              <Settings className="w-4 h-4 text-sky-500" />
+                              Cập nhật trạng thái
+                            </h4>
                             <select
                               value={order.status || 'pending'}
                               onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
                               disabled={isPending}
-                              className="w-full p-2 border rounded-lg"
+                              className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm"
                             >
                               <option value="pending">Chờ xác nhận</option>
                               <option value="processing">Đang xử lý</option>
@@ -268,7 +281,7 @@ export default function AdminOrdersTable({ initialOrders }) {
               ))}
               {paginatedOrders.length === 0 && (
                 <tr>
-                  <td colSpan="8" className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan="8" className="px-5 py-12 text-center text-slate-400">
                     Không tìm thấy đơn hàng nào
                   </td>
                 </tr>
@@ -279,11 +292,11 @@ export default function AdminOrdersTable({ initialOrders }) {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="mt-6 flex justify-center gap-2">
+          <div className="mt-7 flex justify-center gap-2">
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-3 py-2 border rounded disabled:opacity-50"
+              className="px-3.5 py-2.5 border border-slate-200 rounded-xl disabled:opacity-50 bg-white hover:bg-sky-50 hover:border-sky-200 text-sm"
             >
               ←
             </button>
@@ -291,7 +304,7 @@ export default function AdminOrdersTable({ initialOrders }) {
               <button
                 key={i + 1}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 border rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'hover:bg-gray-50'}`}
+                className={`px-4 py-2.5 border rounded-xl text-sm font-medium ${currentPage === i + 1 ? 'bg-gradient-to-r from-sky-500 to-sky-600 text-white border-sky-500 shadow-md shadow-sky-100' : 'border-slate-200 hover:bg-sky-50 hover:border-sky-200 bg-white'}`}
               >
                 {i + 1}
               </button>
@@ -299,7 +312,7 @@ export default function AdminOrdersTable({ initialOrders }) {
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-3 py-2 border rounded disabled:opacity-50"
+              className="px-3.5 py-2.5 border border-slate-200 rounded-xl disabled:opacity-50 bg-white hover:bg-sky-50 hover:border-sky-200 text-sm"
             >
               →
             </button>

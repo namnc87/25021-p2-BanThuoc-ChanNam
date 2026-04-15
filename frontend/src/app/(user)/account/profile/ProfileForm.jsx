@@ -4,6 +4,7 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { updateProfileAction } from '@/actions/user';
+import { Pencil } from 'lucide-react';
 
 export default function ProfileForm({ user }) {
   const router = useRouter();
@@ -60,7 +61,7 @@ export default function ProfileForm({ user }) {
         setTimeout(() => setMessage(null), 3000);
       } else {
         if (result.requiresAuth) {
-          setMessage({ type: 'error', text: '⚠️ ' + result.message });
+          setMessage({ type: 'error', text: result.message });
           setTimeout(() => {
             router.push('/login?redirect=/account/profile');
           }, 1500);
@@ -97,79 +98,79 @@ export default function ProfileForm({ user }) {
   return (
     <div className="space-y-6">
       {message && (
-        <div className={`p-3 rounded ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+        <div className={`p-3.5 rounded-xl text-sm font-medium ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
           {message.text}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Họ và tên</label>
+          <label className="block text-sm font-medium text-slate-500 mb-1.5">Họ và tên</label>
           {isEditing ? (
             <>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className={`w-full p-3 border rounded-lg ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-full p-3.5 border rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent ${errors.name ? 'border-red-300' : 'border-slate-200'}`}
               />
-              {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-red-500 text-sm mt-1.5">{errors.name}</p>}
             </>
           ) : (
-            <p className="font-medium p-3">{formData.name}</p>
+            <p className="font-medium p-3.5 bg-slate-50 rounded-xl text-slate-800">{formData.name}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
+          <label className="block text-sm font-medium text-slate-500 mb-1.5">Email</label>
           {isEditing ? (
             <>
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className={`w-full p-3 border rounded-lg ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-full p-3.5 border rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent ${errors.email ? 'border-red-300' : 'border-slate-200'}`}
               />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              {errors.email && <p className="text-red-500 text-sm mt-1.5">{errors.email}</p>}
             </>
           ) : (
-            <p className="font-medium p-3">{formData.email}</p>
+            <p className="font-medium p-3.5 bg-slate-50 rounded-xl text-slate-800">{formData.email}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Số điện thoại</label>
+          <label className="block text-sm font-medium text-slate-500 mb-1.5">Số điện thoại</label>
           {isEditing ? (
             <>
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className={`w-full p-3 border rounded-lg ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-full p-3.5 border rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent ${errors.phone ? 'border-red-300' : 'border-slate-200'}`}
               />
-              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              {errors.phone && <p className="text-red-500 text-sm mt-1.5">{errors.phone}</p>}
             </>
           ) : (
-            <p className="font-medium p-3">{formData.phone}</p>
+            <p className="font-medium p-3.5 bg-slate-50 rounded-xl text-slate-800">{formData.phone}</p>
           )}
         </div>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex gap-3">
         {isEditing ? (
           <>
             <button
               type="button"
               onClick={handleSave}
               disabled={isPending}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50"
+              className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-2.5 rounded-xl hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 font-medium text-sm shadow-sm shadow-emerald-100"
             >
               {isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
             </button>
             <button
               type="button"
               onClick={handleCancel}
-              className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400"
+              className="bg-slate-100 text-slate-600 px-6 py-2.5 rounded-xl hover:bg-slate-200 font-medium text-sm border border-slate-200"
             >
               Hủy
             </button>
@@ -178,8 +179,9 @@ export default function ProfileForm({ user }) {
           <button
             type="button"
             onClick={handleEdit}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-gradient-to-r from-sky-500 to-sky-600 text-white px-6 py-2.5 rounded-xl hover:from-sky-600 hover:to-sky-700 font-medium text-sm shadow-sm shadow-sky-100 flex items-center gap-2"
           >
+            <Pencil className="w-4 h-4" />
             Chỉnh sửa
           </button>
         )}
