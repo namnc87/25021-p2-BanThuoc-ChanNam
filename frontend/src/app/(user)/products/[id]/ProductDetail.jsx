@@ -49,7 +49,7 @@ export default function ProductDetail({ product }) {
         <div className="lg:w-1/2">
           <div className="bg-white rounded-2xl shadow-md p-6 border border-slate-100">
             {/* Main Image - Use object-contain to show full product */}
-            <div className="w-full h-96 flex items-center justify-center mb-5 relative bg-slate-50 rounded-2xl overflow-hidden">
+            <div className="w-full h-72 sm:h-80 md:h-96 flex items-center justify-center mb-5 relative bg-slate-50 rounded-2xl overflow-hidden">
               <Image
                 src={displayImage}
                 alt={product.name}
@@ -91,11 +91,11 @@ export default function ProductDetail({ product }) {
         <div className="lg:w-1/2">
           {/* Tab Navigation */}
           <div className="mb-7">
-            <div className="flex mb-5 gap-2 bg-slate-100 p-1 rounded-2xl">
+            <div className="flex flex-wrap md:flex-nowrap mb-5 gap-2 bg-slate-100 p-1 rounded-2xl">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
-                  className={`px-4 py-2.5 font-medium text-sm rounded-xl flex-1 ${
+                  className={`px-3 sm:px-4 py-2.5 font-medium text-sm rounded-xl flex-1 whitespace-nowrap min-w-[calc(50%-4px)] md:min-w-0 ${
                     activeTab === tab.id
                       ? 'bg-white text-sky-600 shadow-sm'
                       : 'text-slate-500 hover:text-slate-700'
@@ -148,9 +148,9 @@ export default function ProductDetail({ product }) {
           </div>
 
           {/* Chọn đơn vị và Số lượng */}
-          <div className="flex justify-between items-start mb-7 gap-6">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-7 gap-4 sm:gap-6">
             {/* Chọn đơn vị */}
-            <div className="flex-1">
+            <div className="w-full sm:flex-1">
               <label className="block mb-2 font-medium text-sm text-slate-700">Chọn đơn vị:</label>
               <select
                 value={selectedUnitIndex}

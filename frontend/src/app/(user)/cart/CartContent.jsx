@@ -78,53 +78,58 @@ export default function CartContent({
         <div className="lg:w-2/3">
           <div className="bg-white rounded-2xl shadow-md p-6 border border-slate-100">
             {cartItems.map((item) => (
-              <div key={item.id} className="flex items-center gap-4 py-5 border-b border-slate-100 last:border-0">
-                <div className="w-16 h-16 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
-                  <Image
-                    src={item.productImage || '/images/no-image.png'}
-                    alt={item.productName}
-                    width={64}
-                    height={64}
-                    className="rounded-xl"
-                    style={{ width: 'auto', height: 'auto' }}
-                  />
+              <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 py-5 border-b border-slate-100 last:border-0 w-full">
+                <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
+                  <div className="w-16 h-16 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
+                    <Image
+                      src={item.productImage || '/images/no-image.png'}
+                      alt={item.productName}
+                      width={64}
+                      height={64}
+                      className="rounded-xl"
+                      style={{ width: 'auto', height: 'auto' }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-slate-800 truncate">{item.productName}</h3>
+                    <p className="text-sm text-slate-500 truncate">
+                      Đơn vị: {item.unit}
+                      {item.productCategory && ` • ${item.productCategory}`}
+                    </p>
+                    <p className="text-emerald-600 font-bold mt-1">
+                      {formatCurrency(item.price)}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-slate-800">{item.productName}</h3>
-                  <p className="text-sm text-slate-500">
-                    Đơn vị: {item.unit}
-                    {item.productCategory && ` • ${item.productCategory}`}
-                  </p>
-                  <p className="text-emerald-600 font-bold mt-1">
-                    {formatCurrency(item.price)}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleUpdateQuantity(item.id, -1)}
-                    disabled={loadingId === item.id}
-                    className="w-8 h-8 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 disabled:opacity-50 bg-white"
-                  >
-                    <Minus className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="w-10 text-center font-medium text-slate-800">{item.quantity}</span>
-                  <button
-                    onClick={() => handleUpdateQuantity(item.id, 1)}
-                    disabled={loadingId === item.id}
-                    className="w-8 h-8 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 disabled:opacity-50 bg-white"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold text-slate-800">{formatCurrency(item.price * item.quantity)}</p>
-                  <button
-                    onClick={() => setConfirmDelete(item.id)}
-                    disabled={loadingId === item.id}
-                    className="text-red-400 hover:text-red-600 mt-1 text-sm disabled:opacity-50 font-medium"
-                  >
-                    Xóa
-                  </button>
+
+                <div className="flex items-center justify-between w-full sm:w-auto gap-4 mt-2 sm:mt-0 pt-3 sm:pt-0 border-t border-slate-100 sm:border-0">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleUpdateQuantity(item.id, -1)}
+                      disabled={loadingId === item.id}
+                      className="w-8 h-8 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 disabled:opacity-50 bg-white"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="w-10 text-center font-medium text-slate-800">{item.quantity}</span>
+                    <button
+                      onClick={() => handleUpdateQuantity(item.id, 1)}
+                      disabled={loadingId === item.id}
+                      className="w-8 h-8 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-200 hover:text-sky-600 disabled:opacity-50 bg-white"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-slate-800">{formatCurrency(item.price * item.quantity)}</p>
+                    <button
+                      onClick={() => setConfirmDelete(item.id)}
+                      disabled={loadingId === item.id}
+                      className="text-red-400 hover:text-red-600 mt-1 text-sm disabled:opacity-50 font-medium"
+                    >
+                      Xóa
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

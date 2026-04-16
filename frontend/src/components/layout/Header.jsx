@@ -45,7 +45,7 @@ export default async function Header() {
           <HeaderClient />
 
           {/* Navigation */}
-          <nav className="flex items-center gap-3">
+          <nav className="flex flex-wrap justify-center items-center gap-2 md:gap-3 w-full md:w-auto mt-2 md:mt-0">
             <Link href="/" className="text-sm font-medium text-slate-600 hover:text-sky-600 px-2 py-1.5 rounded-full hover:bg-sky-50">
               Trang chủ
             </Link>
@@ -60,9 +60,9 @@ export default async function Header() {
               <div className="flex items-center gap-2">
                 <Link
                   href={isAdmin ? '/admin/orders' : '/account'}
-                  className="bg-gradient-to-r from-sky-50 to-emerald-50 text-sky-700 px-4 py-2 rounded-full hover:from-sky-100 hover:to-emerald-100 flex items-center gap-2 text-sm font-medium border border-sky-100"
+                  className="bg-gradient-to-r from-sky-50 to-emerald-50 text-sky-700 px-3 md:px-4 py-2 rounded-full hover:from-sky-100 hover:to-emerald-100 flex items-center gap-2 text-sm font-medium border border-sky-100"
                 >
-                  <span>{user.name}</span>
+                  <span className="truncate max-w-[100px] md:max-w-none">{user.name}</span>
                   {isAdmin && (
                     <span className="bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded-full font-semibold">
                       Admin
@@ -74,24 +74,24 @@ export default async function Header() {
                 <form action={logoutAction}>
                   <button
                     type="submit"
-                    className="bg-slate-100 text-slate-600 px-4 py-2 rounded-full hover:bg-red-50 hover:text-red-600 text-sm font-medium border border-slate-200 hover:border-red-200"
+                    className="bg-slate-100 text-slate-600 px-3 md:px-4 py-2 rounded-full hover:bg-red-50 hover:text-red-600 text-sm font-medium border border-slate-200 hover:border-red-200"
                   >
                     Đăng xuất
                   </button>
                 </form>
               </div>
             ) : (
-              <>
+              <div className="flex items-center gap-2">
                 <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-sky-600 px-3 py-1.5 rounded-full hover:bg-sky-50">
                   Đăng nhập
                 </Link>
                 <Link
                   href="/register"
-                  className="bg-gradient-to-r from-sky-500 to-sky-600 text-white px-5 py-2 rounded-full hover:from-sky-600 hover:to-sky-700 text-sm font-medium shadow-md shadow-sky-200 hover:shadow-lg hover:shadow-sky-300"
+                  className="bg-gradient-to-r from-sky-500 to-sky-600 text-white px-4 md:px-5 py-2 rounded-full hover:from-sky-600 hover:to-sky-700 text-sm font-medium shadow-md shadow-sky-200 hover:shadow-lg hover:shadow-sky-300"
                 >
                   Đăng ký
                 </Link>
-              </>
+              </div>
             )}
 
             {/* Cart - Only show for non-admin users */}
@@ -106,7 +106,7 @@ export default async function Header() {
                   )}
                 </div>
                 {cartTotal > 0 && (
-                  <span className="text-xs font-bold text-emerald-600 whitespace-nowrap">{formatCurrency(cartTotal)}</span>
+                  <span className="text-xs font-bold text-emerald-600 whitespace-nowrap hidden sm:inline-block">{formatCurrency(cartTotal)}</span>
                 )}
               </Link>
             )}
