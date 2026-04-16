@@ -12,8 +12,39 @@ export default function CheckoutForm({
   cartItems,
   user,
   totals,
+  savedAddresses = [],
 }) {
   const router = useRouter();
+  
+  const defaultAddress = savedAddresses?.find(a => a.isDefault);
+  const [selectedAddressId, setSelectedAddressId] = useState(defaultAddress ? defaultAddress.id : 'new');
+  
+  const [addressData, setAddressData] = useState({
+    recipientName: defaultAddress ? defaultAddress.recipientName : (user?.name || ''),
+    phone: defaultAddress ? defaultAddress.recipientPhone : (user?.phone || ''),
+    address: defaultAddress ? defaultAddress.fullAddress : ''
+  });
+
+  const handleAddressSelect = (e) => {
+    const id = e.target.value;
+    setSelectedAddressId(id);
+    if (id === 'new') {
+      setAddressData({
+        recipientName: user?.name || '',
+        phone: user?.phone || '',
+        address: ''
+      });
+    } else {
+      const selected = savedAddresses.find(a => String(a.id) === String(id));
+      if (selected) {
+        setAddressData({
+          recipientName: selected.recipientName,
+          phone: selected.recipientPhone,
+          address: selected.fullAddress
+        });
+      }
+    }
+  };
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cod');
@@ -95,12 +126,32 @@ export default function CheckoutForm({
                 Thông tin giao hàng
               </h2>
               <div className="space-y-5">
+                {savedAddresses?.length > 0 && (
+                  <div>
+                    <label className="block mb-1.5 font-medium text-sm text-slate-700">Chọn địa chỉ đã lưu</label>
+                    <select
+                      value={selectedAddressId}
+                      onChange={handleAddressSelect}
+                      className="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm appearance-none"
+                      disabled={isPending}
+                    >
+                      <option value="new">-- Nhập địa chỉ mới --</option>
+                      {savedAddresses.map((addr) => (
+                        <option key={addr.id} value={addr.id}>
+                          {addr.recipientName} - {addr.recipientPhone} - {addr.fullAddress}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                
                 <div>
                   <label className="block mb-1.5 font-medium text-sm text-slate-700">Họ tên người nhận *</label>
                   <input
                     type="text"
                     name="recipientName"
-                    defaultValue={user?.name || ''}
+                    value={addressData.recipientName}
+                    onChange={(e) => setAddressData({...addressData, recipientName: e.target.value})}
                     className="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm"
                     placeholder="Nhập họ tên người nhận"
                     disabled={isPending}
@@ -111,7 +162,8 @@ export default function CheckoutForm({
                   <input
                     type="tel"
                     name="phone"
-                    defaultValue={user?.phone || ''}
+                    value={addressData.phone}
+                    onChange={(e) => setAddressData({...addressData, phone: e.target.value})}
                     className="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm"
                     placeholder="Nhập số điện thoại"
                     disabled={isPending}
@@ -122,6 +174,8 @@ export default function CheckoutForm({
                   <textarea
                     name="address"
                     rows="3"
+                    value={addressData.address}
+                    onChange={(e) => setAddressData({...addressData, address: e.target.value})}
                     className="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent text-sm"
                     placeholder="Nhập địa chỉ nhận hàng"
                     disabled={isPending}

@@ -1,7 +1,7 @@
 // Checkout Page - Server Component
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { getCartItems } from '@/actions/cart';
+import { getUserAddresses } from '@/actions/user';
 import CheckoutForm from './CheckoutForm';
 import Link from 'next/link';
 
@@ -47,6 +47,8 @@ export default async function CheckoutPage() {
     redirect('/login?redirect=/checkout');
   }
 
+  const addresses = await getUserAddresses();
+
   // Check if cart is empty
   if (cartItems.length === 0) {
     return (
@@ -75,6 +77,7 @@ export default async function CheckoutPage() {
       cartItems={cartItems}
       user={user}
       totals={{ subtotal, shippingCost, totalPrice }}
+      savedAddresses={addresses}
     />
   );
 }
