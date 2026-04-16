@@ -2,6 +2,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 
 export default function ProductFilters({
@@ -9,6 +10,7 @@ export default function ProductFilters({
   currentFilters
 }) {
   const router = useRouter();
+  const formRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +35,13 @@ export default function ProductFilters({
   };
 
   const handleClear = () => {
+    if (formRef.current) {
+      formRef.current.search.value = '';
+      formRef.current.category.value = '';
+      formRef.current.type.value = '';
+      formRef.current.minPrice.value = '';
+      formRef.current.maxPrice.value = '';
+    }
     router.push('/products');
   };
 
@@ -43,7 +52,7 @@ export default function ProductFilters({
         Bộ lọc
       </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
         {/* Search */}
         <div>
           <label className="block mb-2 font-medium text-sm text-slate-700">Tìm kiếm</label>

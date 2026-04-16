@@ -29,6 +29,11 @@ export default async function ProductsPage({ searchParams }) {
     filteredProducts = filteredProducts.filter(p => p.category === sp.category);
   }
 
+  // Filter by type
+  if (sp.type) {
+    filteredProducts = filteredProducts.filter(p => p.type === sp.type);
+  }
+
   // Filter by price range
   if (sp.minPrice) {
     const minPrice = parseFloat(sp.minPrice);
@@ -78,6 +83,7 @@ export default async function ProductsPage({ searchParams }) {
       categories={categories}
       currentFilters={{
         category: sp.category || '',
+        type: sp.type || '',
         minPrice: sp.minPrice || '',
         maxPrice: sp.maxPrice || '',
         search: sp.search || '',
